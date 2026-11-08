@@ -1,9 +1,9 @@
 # Third-party notices
 
-Original Scope Control contributions are licensed under the [MIT License](../LICENSE.md).
+Original Scope Control contributions are licensed under the [MIT License](LICENSE.md).
 The notices and licenses below continue to apply to their respective third-party components.
 
-SpeedPy is released under the MIT License. See [LICENSE.md](LICENSE.md).
+SpeedPy is released under the MIT License. See [LICENSE.md](LICENSE-SpeedPy.md).
 
 The files below are bundled with SpeedPy and have their own licenses:
 
@@ -312,7 +312,7 @@ recovery principle from mainapp/tasks/teams.py into the version-bound analysis
 services/tasks. The generic owner-only demo AsyncJob is not used as an analysis
 record. Tenant-scoped lookup continues the Apptension principle credited above;
 no additional framework, ORM, model SDK or queue is imported. Public source
-revisions, paths and adaptations are documented in [third-party provenance](../docs/third-party.md).
+revisions, paths and adaptations are documented in [third-party provenance](docs/third-party.md).
 Existing license notices remain applicable.
 
 
@@ -324,7 +324,7 @@ normalizer, immutable public profile and conservative per-attempt financial
 bookkeeping are Scope Control additions. HTTPX 0.28.1 is an existing dependency;
 no Yandex/OpenAI SDK, second framework/ORM/queue or third-party adapter source
 was imported. Public extension paths and source revisions are documented in
-[third-party provenance](../docs/third-party.md). Existing license texts and attribution remain.
+[third-party provenance](docs/third-party.md). Existing license texts and attribution remain.
 
 
 ## Next.js SaaS Starter activity principle — S3a
@@ -340,31 +340,31 @@ was imported. Public extension paths and source revisions are documented in
 - Existing SpeedPy UI/auth/ORM and credited Apptension scoped-lookup principle
   remain the application foundation. No new dependencies or second platform.
 - Public source revisions, paths and adaptations are recorded in
-  [third-party provenance](../docs/third-party.md).
+  [third-party provenance](docs/third-party.md).
 
 ## SpeedPy lifecycle principle — S3b
 
 Source: https://github.com/speedpy/speedpy, revision
 `2cd0043c474b145f8be395eec4b8d31483c8daa0`, `mainapp/models/teams.py` and
-`mainapp/tasks/teams.py`, MIT; existing [LICENSE.md](LICENSE.md) retained.
+`mainapp/tasks/teams.py`, MIT; existing [LICENSE.md](LICENSE-SpeedPy.md) retained.
 Adapted durable marker-before-cleanup and idempotent retry principles to an
 owner-authorized project request and a separate maintenance purge. The fixed
 project graph SQL, independent encrypted inventory, financial/quota preservation
 and quarantined recovery are Scope Control additions. No Team/account cleanup
 bypass, new ORM, queue or second platform was imported. Fernet uses the existing
 pinned cryptography 50.0.2 API; no cryptographic implementation was copied.
-Public source revisions and adaptation paths are in [third-party provenance](../docs/third-party.md).
+Public source revisions and adaptation paths are in [third-party provenance](docs/third-party.md).
 
 ## Scope Control S4a workflow UI
 
 Retains SpeedPy server-template page/card/button semantics and UI tokens from
 `templates/mainapp/layouts/sidebar_layout.html` and `static/mainapp/input.css`,
 revision `2cd0043c474b145f8be395eec4b8d31483c8daa0` (MIT;
-[LICENSE.md](LICENSE.md)). Request-bound four-step presentation, role-aware next
+[LICENSE.md](LICENSE-SpeedPy.md)). Request-bound four-step presentation, role-aware next
 links and the read selector are Scope Control adaptations over existing domain
 services. No workflow engine, new UI package, second framework or donor platform
 was imported. Public source revisions and adaptation paths are documented in
-[third-party provenance](../docs/third-party.md); all existing notices remain applicable.
+[third-party provenance](docs/third-party.md); all existing notices remain applicable.
 
 ## Bundled htmx 2.0.8
 

@@ -979,7 +979,7 @@ LOGGING["handlers"]["console"]["filters"] = ["authentication_links"]
 LOGGING["loggers"]["django.server"] = {"handlers": ["console"], "level": "INFO", "propagate": False}
 if "test" in sys.argv:
     TEST_RUNNER = "xmlrunner.extra.djangotestrunner.XMLTestRunner"
-    TEST_OUTPUT_DIR = str(BASE_DIR.parent / ".agent/artifacts")
+    TEST_OUTPUT_DIR = str(BASE_DIR / ".agent/artifacts")
     TEST_OUTPUT_FILE_NAME = "test_report.xml"
 
 LOGGING["loggers"]["django.db.backends"] = {"handlers": ["console"], "level": "WARNING", "propagate": False}

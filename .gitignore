@@ -3,29 +3,25 @@
 !/.gitignore
 !/README.md
 !/LICENSE.md
-!/app/
+!/LICENSE-SpeedPy.md
+!/NOTICE.md
+!/blocked_email_domains.txt
+!/docker-compose.yml
+!/manage.py
+!/package.json
+!/package-lock.json
+!/pyproject.toml
+!/uv.lock
+!/tailwind.config.js
+!/crispy_tailwind/
+!/demoapp/
+!/mainapp/
+!/project/
+!/speedpycom/
+!/static/
+!/templates/
+!/usermodel/
 !/docs/
-
-# Application source, manifests, lockfiles, static assets and synthetic tests.
-/app/*
-!/app/LICENSE.md
-!/app/NOTICE.md
-!/app/blocked_email_domains.txt
-!/app/docker-compose.yml
-!/app/manage.py
-!/app/package.json
-!/app/package-lock.json
-!/app/pyproject.toml
-!/app/uv.lock
-!/app/tailwind.config.js
-!/app/crispy_tailwind/
-!/app/demoapp/
-!/app/mainapp/
-!/app/project/
-!/app/speedpycom/
-!/app/static/
-!/app/templates/
-!/app/usermodel/
 
 # Public documentation is also opt-in.
 /docs/*
@@ -128,7 +124,7 @@ exports/
 uploads/
 logs/
 data/
-!/app/speedpycom/data/
+!/speedpycom/data/
 
 # Actual test reports and scheduler state belong to each local installation.
 .coverage

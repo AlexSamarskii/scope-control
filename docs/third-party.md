@@ -5,8 +5,8 @@ Scope Control использует одну основную платформу 
 Доноры не устанавливаются как дополнительные auth/ORM/worker-платформы.
 
 Это публичная сводка фактических заимствований. Полные лицензионные тексты и
-уведомления: [LICENSE](../app/LICENSE.md), [NOTICE](../app/NOTICE.md),
-[OFL Inter](../app/static/fonts/OFL-Inter.txt). Сводка не заменяет их условия
+уведомления: [LICENSE](../LICENSE-SpeedPy.md), [NOTICE](../NOTICE.md),
+[OFL Inter](../static/fonts/OFL-Inter.txt). Сводка не заменяет их условия
 и не назначает новую общую лицензию проекту.
 
 ## speedpy-foundation-S1
@@ -18,7 +18,7 @@ Scope Control использует одну основную платформу 
 Сохранён каркас Django/ORM/auth/Celery, server templates, статические ресурсы
 и подходящие тесты. Исходные каталоги: `mainapp/`, `project/`, `speedpycom/`,
 `usermodel/`, `demoapp/`, `crispy_tailwind/`, `templates/`, `static/`; целевой
-каталог — [app/](../app/). Добавлены продуктовые ограничения доступа,
+каталог — [корень проекта](../). Добавлены продуктовые ограничения доступа,
 неизменяемые версии объёма и описанные ниже расширения. MIT SpeedPy сохранена.
 
 ## boxyhq-invitation-flow-S1
@@ -29,7 +29,7 @@ Scope Control использует одну основную платформу 
 
 Исходные пути: `prisma/schema.prisma`, `components/auth/JoinWithInvitation.tsx`.
 
-Целевые пути: [app/templates/account/signup.html](../app/templates/account/signup.html), [app/usermodel/adapters.py](../app/usermodel/adapters.py).
+Целевые пути: [templates/account/signup.html](../templates/account/signup.html), [usermodel/adapters.py](../usermodel/adapters.py).
 
 Invitation signup UX adapted to Django/allauth; read-only expected email plus independent server-side verified-address checks. React/Formik/NextAuth code not imported.
 
@@ -41,7 +41,7 @@ Invitation signup UX adapted to Django/allauth; read-only expected email plus in
 
 Исходные пути: `packages/backend/common/graphql/mutations.py`.
 
-Целевые пути: [app/mainapp/services/scope_control.py](../app/mainapp/services/scope_control.py), [app/mainapp/tests/test_scope_control.py](../app/mainapp/tests/test_scope_control.py).
+Целевые пути: [mainapp/services/scope_control.py](../mainapp/services/scope_control.py), [mainapp/tests/test_scope_control.py](../mainapp/tests/test_scope_control.py).
 
 Tenant-scoped object lookup and negative cross-tenant scenarios adapted to TeamMembership/Django. Graphene mutation and its dependencies not copied.
 
@@ -53,7 +53,7 @@ Tenant-scoped object lookup and negative cross-tenant scenarios adapted to TeamM
 
 Исходные пути: `project/celeryapp.py`, `mainapp/models/jobs.py`, `mainapp/tasks/jobs.py`, `mainapp/tasks/teams.py`.
 
-Целевые пути: [app/project/celeryapp.py](../app/project/celeryapp.py), [app/mainapp/services/analysis.py](../app/mainapp/services/analysis.py), [app/mainapp/tasks/analysis.py](../app/mainapp/tasks/analysis.py).
+Целевые пути: [project/celeryapp.py](../project/celeryapp.py), [mainapp/services/analysis.py](../mainapp/services/analysis.py), [mainapp/tasks/analysis.py](../mainapp/tasks/analysis.py).
 
 Retained SpeedPy Celery/ORM; adapted per-record transactional recovery principle to version-bound runs/attempts.
 
@@ -69,7 +69,7 @@ Added native domain validation, leases, quota serialization and UUID-only task p
 
 Исходные пути: `project/celeryapp.py`, `mainapp/models/jobs.py`, `mainapp/tasks/jobs.py`, `mainapp/tasks/teams.py`.
 
-Целевые пути: [app/project/celeryapp.py](../app/project/celeryapp.py), [app/mainapp/services/analysis.py](../app/mainapp/services/analysis.py), [app/mainapp/tasks/analysis.py](../app/mainapp/tasks/analysis.py), [app/mainapp/services/analysis_provider.py](../app/mainapp/services/analysis_provider.py), [app/mainapp/services/analysis_budget.py](../app/mainapp/services/analysis_budget.py).
+Целевые пути: [project/celeryapp.py](../project/celeryapp.py), [mainapp/services/analysis.py](../mainapp/services/analysis.py), [mainapp/tasks/analysis.py](../mainapp/tasks/analysis.py), [mainapp/services/analysis_provider.py](../mainapp/services/analysis_provider.py), [mainapp/services/analysis_budget.py](../mainapp/services/analysis_budget.py).
 
 Extend retained SpeedPy execution and previously credited Apptension tenant scoping with native Yandex HTTP, immutable provider profile and global reservation/settlement.
 
@@ -83,7 +83,7 @@ New provider/prompt/schema/budget code authored for Scope Control; no Yandex SDK
 
 Исходные пути: `lib/db/schema.ts`, `LICENSE`.
 
-Целевые пути: [app/mainapp/models/change_control.py](../app/mainapp/models/change_control.py), [app/mainapp/services/change_control.py](../app/mainapp/services/change_control.py), [app/mainapp/tests/test_scope_change_control.py](../app/mainapp/tests/test_scope_change_control.py).
+Целевые пути: [mainapp/models/change_control.py](../mainapp/models/change_control.py), [mainapp/services/change_control.py](../mainapp/services/change_control.py), [mainapp/tests/test_scope_change_control.py](../mainapp/tests/test_scope_change_control.py).
 
 Adapt actor/action/time within request-derived team/project to append-only human revision/evidence records.
 
@@ -97,7 +97,7 @@ No Drizzle/TypeScript code, Next.js runtime, IP retention or second ORM; existin
 
 Исходные пути: `mainapp/models/teams.py`, `mainapp/tasks/teams.py`.
 
-Целевые пути: [app/mainapp/models/data_lifecycle.py](../app/mainapp/models/data_lifecycle.py), [app/mainapp/services/data_lifecycle.py](../app/mainapp/services/data_lifecycle.py), [app/speedpycom/management/commands/purge_scope_projects.py](../app/speedpycom/management/commands/purge_scope_projects.py).
+Целевые пути: [mainapp/models/data_lifecycle.py](../mainapp/models/data_lifecycle.py), [mainapp/services/data_lifecycle.py](../mainapp/services/data_lifecycle.py), [speedpycom/management/commands/purge_scope_projects.py](../speedpycom/management/commands/purge_scope_projects.py).
 
 Scope to one project, separate owner intent from quiesced operator purge and restore anti-resurrection inventory.
 
@@ -111,7 +111,7 @@ No Frappe platform or Team/account automatic deletion hooks; preserve donor elig
 
 Исходные пути: `templates/mainapp/layouts/sidebar_layout.html`, `static/mainapp/input.css`.
 
-Целевые пути: [app/templates/mainapp/scope_control/_workflow_guide.html](../app/templates/mainapp/scope_control/_workflow_guide.html), [app/templates/mainapp/scope_control/project_detail.html](../app/templates/mainapp/scope_control/project_detail.html), [app/static/mainapp/styles.css](../app/static/mainapp/styles.css).
+Целевые пути: [templates/mainapp/scope_control/_workflow_guide.html](../templates/mainapp/scope_control/_workflow_guide.html), [templates/mainapp/scope_control/project_detail.html](../templates/mainapp/scope_control/project_detail.html), [static/mainapp/styles.css](../static/mainapp/styles.css).
 
 Four-step request-bound display and next action, explicit manual mode, readonly roles and stale-version branches.
 
@@ -119,17 +119,17 @@ Four-step request-bound display and next action, explicit manual mode, readonly 
 
 | Ресурс | Происхождение | Лицензия |
 | --- | --- | --- |
-| Inter font | rsms/inter | SIL OFL1.1, полный текст в app/static/fonts/OFL-Inter.txt |
+| Inter font | rsms/inter | SIL OFL1.1, полный текст в static/fonts/OFL-Inter.txt |
 | Alpine.js | alpinejs/alpine v3.15.3 | MIT, полный текст в NOTICE |
 | Driver.js | kamranahmedse/driver.js (ныне nilbuild/driver.js) | MIT, полный текст в NOTICE |
 | htmx | bigskysoftware/htmx v2.0.8 | 0BSD, полный текст в NOTICE |
 
 Для htmx v2.0.8 файл `dist/htmx.min.js` побайтово сопоставлен с поставляемым
-`app/static/vendors/htmx.min.js`. Лицензия получена из той же ревизии.
+`static/vendors/htmx.min.js`. Лицензия получена из той же ревизии.
 
 ## Зависимости и эксплуатация
 
-Python/Node зависимости зафиксированы в `app/uv.lock` и `app/package-lock.json`.
+Python/Node зависимости зафиксированы в `uv.lock` и `package-lock.json`.
 Их собственные лицензии сохраняются у соответствующих пакетов. PostgreSQL и
 Redis запускаются отдельно; Redis7.4.7 использует RSALv2/SSPLv1. MIT starter
 не покрывает эти runtime-условия. Коммерческое размещение требует проверки
@@ -143,14 +143,14 @@ Redis запускаются отдельно; Redis7.4.7 использует R
 Источник: https://github.com/Nutlope/hallmark
 
 Ревизия: `407fa689f4a276f2fd389208d271d0fef08f5058`. MIT, Copyright (c) 2026 Hallmark contributors.
-Полный текст лицензии сохранён в [NOTICE](../app/NOTICE.md).
+Полный текст лицензии сохранён в [NOTICE](../NOTICE.md).
 
 Исходные файлы: `site/themes/terrazzo/tokens.css`, `style.css`, `base.css`,
 `skills/hallmark/references/themes/terrazzo.md`. Адаптированы бумажная палитра,
 чернильные кнопки, терракотовый акцент, прямые углы, рамки, жёсткие тени,
-типографика и оформление этапов. Целевые файлы: `app/static/mainapp/input.css`,
-`styles.css`, `app/tailwind.config.js`, `app/templates/base.html`,
-`app/templates/mainapp/layouts/sidebar_layout.html`, шаблоны навигации,
+типографика и оформление этапов. Целевые файлы: `static/mainapp/input.css`,
+`styles.css`, `tailwind.config.js`, `templates/base.html`,
+`templates/mainapp/layouts/sidebar_layout.html`, шаблоны навигации,
 `project_list.html`, `_workflow_guide.html` и локальный SVG-знак.
 Фотографии, JavaScript и рекламный контент Hallmark не заимствованы.
 Используются существующие Django/Tailwind/Alpine; новых runtime-зависимостей нет.
@@ -158,8 +158,8 @@ Redis запускаются отдельно; Redis7.4.7 использует R
 Шрифт Onest из темы заменяет Syne также в заголовках ради поддержки кириллицы.
 Неизменённый файл `ofl/onest/Onest[wght].ttf` из google/fonts, ревизия
 `4c1db3aec83c67dd223dd82a68c039cab30917a9`, поставляется локально как
-`app/static/fonts/Onest-Variable.ttf` под SIL OFL1.1. Полный текст:
-[OFL Onest](../app/static/fonts/OFL-Onest.txt). Внешние сервисы шрифтов
+`static/fonts/Onest-Variable.ttf` под SIL OFL1.1. Полный текст:
+[OFL Onest](../static/fonts/OFL-Onest.txt). Внешние сервисы шрифтов
 не вызываются; уведомления Inter сохранены.
 
 Локальная проверка на синтетических данных: сборка CSS,65 существующих тестов,
