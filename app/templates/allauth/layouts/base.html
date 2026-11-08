@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% comment %} bg-background, not bg-gray-50: the body already paints bg-background, so
+   the old hardcoded light grey sat behind it and was wrong in dark mode.
+{% endcomment %}
+{% block extra_html_class %}h-full bg-background{% endblock %}
+{% block extra_body_class %}h-full{% endblock %}
+{% block body %}
+    {% include "components/nav.html" %}
+    {% block content %}
+    {% endblock content %}
+{% endblock body %}

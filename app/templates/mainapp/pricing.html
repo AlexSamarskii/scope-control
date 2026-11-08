@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head_title %}Pricing{% endblock %}
+{% block content %}
+
+    <main class="bg-background-paper" x-data="{ yearly: false }">
+
+        {% comment %}---------- Hero ----------{% endcomment %}
+        <section class="bg-background py-12">
+            <div class="max-w-6xl mx-auto px-6">
+                <div>
+                    <h1 class="text-4xl font-bold leading-tight text-fg">
+                        Start today. Boost up your services!
+                    </h1>
+                    <p class="mt-4 text-base text-fg-secondary">
+                        Join thousands of developers &amp; designers using SpeedPy
+                        to power modern SaaS projects.
+                    </p>
+
+                    <div class="mt-6 flex items-center gap-3">
+                        <label class="switch">
+                            <input type="checkbox" class="sr-only peer" x-model="yearly">
+                            <span class="switch-track"></span>
+                            <span class="switch-thumb"></span>
+                        </label>
+                        <span class="text-base text-fg">Yearly Payment</span>
+                        <span class="inline-flex items-center justify-center rounded-full bg-primary text-primary-contrast
+                                     text-[0.65rem] font-semibold uppercase tracking-wide h-5 px-2 ml-2">
+                            Save annually
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-0 border-t border-divider m-0">
+
+        {% comment %}---------- Plans ----------{% endcomment %}
+        {% if SPEEDPY_BILLING_ENABLED and user.is_authenticated %}
+            {% if SPEEDPY_TEAMS_ENABLED %}
+                {% if SIDEBAR_TEAM %}{% url 'team_billing' team_id=SIDEBAR_TEAM.id as billing_href %}{% endif %}
+            {% else %}
+                {% url 'account_billing' as billing_href %}
+            {% endif %}
+        {% endif %}
+        <section class="py-12">
+            <div class="max-w-6xl mx-auto px-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+
+                    {% for plan in plans %}
+                    <div class="flex flex-col max-w-md mx-auto md:mx-0 w-full">
+                        <div class="p-8">
+                            <div class="mt-4 flex items-baseline gap-1">
+                                {% if plan.is_contact %}
+                                    <span class="text-3xl font-bold text-fg">Custom</span>
+                                {% else %}
+                                    <span class="text-3xl font-bold text-fg">
+                                        $<span x-text="yearly ? '{{ plan.price_yearly }}' : '{{ plan.price_monthly }}'">{{ plan.price_monthly }}</span>
+                                    </span>
+                                    <span class="text-sm font-medium text-fg-secondary" x-text="yearly ? '/yr' : '/mo'">/mo</span>
+                                {% endif %}
+                            </div>
+                            <h3 class="mt-4 text-lg font-semibold text-fg">{{ plan.name }}</h3>
+                            <p class="mt-2 text-sm text-fg-secondary">{{ plan.description }}</p>
+                        </div>
+
+                        <hr class="border-0 border-t border-divider m-0">
+
+                        <div class="flex flex-col flex-grow p-8">
+                            <ul class="space-y-4 p-0 m-0 list-none">
+                                {% for feature in plan.features %}
+                                    {% include "mainapp/pricing/_feature.html" with text=feature %}
+                                {% endfor %}
+                            </ul>
+                            <div class="flex-grow"></div>
+
+                            {% if plan.is_contact %}
+                                <a href="{% url 'contact' %}"
+                                   class="btn btn-outlined btn-primary w-full mt-10">
+                                    Contact us
+                                </a>
+                            {% elif not plan.is_paid %}
+                                <a href="{% url 'account_signup' %}"
+                                   class="btn btn-outlined btn-primary w-full mt-10">
+                                    Get started
+                                </a>
+                            {% elif billing_href %}
+                                <a href="{{ billing_href }}"
+                                   class="btn btn-contained btn-primary w-full mt-10">
+                                    Choose {{ plan.name }}
+                                </a>
+                            {% else %}
+                                <a href="{% url 'account_signup' %}"
+                                   class="btn btn-contained btn-primary w-full mt-10">
+                                    Get started
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </section>
+
+        {% comment %}
+            Billing & refunds. When Paddle is the provider it acts as your Merchant
+            of Record, and Paddle requires that the MoR statement, a tax note and a
+            refund policy are shown on your site. This block renders only for the
+            Paddle provider; tune the refund wording to your own policy. Stripe is
+            not a Merchant of Record, so it is intentionally excluded.
+        {% endcomment %}
+        {% if SPEEDPY_BILLING_PROVIDER == 'paddle' %}
+        <section class="section-paper">
+            <div class="page-container max-w-3xl py-12 space-y-8">
+                <div>
+                    <h2 class="h4">Billing &amp; taxes</h2>
+                    <p class="text-fg-secondary mt-3">
+                        Our order process is conducted by our online reseller
+                        Paddle.com. Paddle.com is the Merchant of Record for all our
+                        orders. Paddle handles billing, invoicing and customer service
+                        inquiries, and processes returns.
+                    </p>
+                    <p class="text-fg-secondary mt-3">
+                        Prices do not include taxes. Applicable tax is calculated and
+                        added at checkout.
+                    </p>
+                </div>
+
+                <div id="refund-policy">
+                    <h2 class="h4">Refund policy</h2>
+                    <p class="text-fg-secondary mt-3">
+                        We offer a no-questions-asked refund within 30 days of your
+                        purchase. If you are not satisfied within 30 days of any payment
+                        &mdash; your initial subscription or a renewal &mdash;
+                        <a href="{% url 'contact' %}" class="underline">contact us</a>
+                        and we will issue a full refund. Refunds are processed by
+                        Paddle, our Merchant of Record.
+                    </p>
+                </div>
+            </div>
+        </section>
+        {% endif %}
+
+        <p class="text-center text-xs text-fg-secondary pb-10">
+            Taxes and provider fees may apply at checkout.
+        </p>
+    </main>
+
+{% endblock %}

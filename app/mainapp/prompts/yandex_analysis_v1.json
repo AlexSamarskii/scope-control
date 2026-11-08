@@ -1,0 +1,16 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "category", "rationale", "citations", "questions"],
+  "properties": {
+    "schema_version": {"type": "integer", "enum": [1]},
+    "category": {"type": "string", "enum": ["included", "possible_change", "insufficient_evidence"]},
+    "rationale": {"type": "string", "minLength": 1, "maxLength": 2000},
+    "citations": {
+      "type": "array", "maxItems": 8,
+      "items": {"type": "object", "additionalProperties": false, "required": ["source_id", "quote"],
+        "properties": {"source_id": {"type": "string"}, "quote": {"type": "string", "minLength": 1, "maxLength": 2000}}}
+    },
+    "questions": {"type": "array", "maxItems": 5, "items": {"type": "string", "minLength": 1, "maxLength": 500}}
+  }
+}

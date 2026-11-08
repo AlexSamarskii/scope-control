@@ -1,0 +1,131 @@
+{% extends "mainapp/layouts/sidebar_layout.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block head_title %}{{ team.name }} · Настройки{% endblock %}
+
+{% block main_content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <div class="mb-6">
+            <h1 class="text-2xl font-bold text-fg">Настройки компании</h1>
+            <p class="mt-2 text-sm text-fg-secondary">
+                Название, логотип и часовой пояс компании.
+            </p>
+        </div>
+
+        <!-- Settings Form -->
+        <div class="card">
+            <div class="card-body !p-6">
+                <form method="post" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+
+                    <!-- Текущий логотип Preview -->
+                    {% if team.logo %}
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-fg mb-2">
+                            Текущий логотип
+                        </label>
+                        <img src="{% url 'team_logo' team_id=team.pk %}"
+                             alt="{{ team.name }}"
+                             class="h-24 w-24 rounded-lg object-cover border border-divider">
+                    </div>
+                    {% endif %}
+
+                    <!-- Form Fields -->
+                    {% crispy form %}
+
+                    <!-- Action Buttons -->
+                    <div class="mt-6 flex items-center gap-x-3 pt-6 border-t border-divider">
+                        <button type="submit" class="btn btn-contained btn-primary">
+                            Сохранить изменения
+                        </button>
+                        <a href="{% url 'team_dashboard' team_id=team.id %}"
+                           class="text-sm font-semibold text-fg-secondary hover:text-fg">
+                            Отмена
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Danger zone: delete the team, or undo a scheduled deletion.
+             Owner only. Which of the two blocks shows depends on whether a
+             deletion is already scheduled, and the copy depends on
+             SPEEDPY_TEAM_DELETION_DELAY_HOURS: with 0 the click deletes, with
+             anything else it schedules and stays undoable until then. -->
+        {% if user_role == 'owner' %}
+        <div class="card mt-8 border-error/40">
+            <div class="card-body !p-6">
+                {% if team.is_deletion_scheduled %}
+                    <h3 class="text-sm font-semibold text-error">Удаление запланировано</h3>
+                    <p class="mt-1 text-sm text-fg-secondary">
+                        Удаление компании запланировано на
+                        <strong>{{ team.deletion_scheduled_at }}</strong>. До этого момента можно отменить запрос.
+                    </p>
+                    {% if team_deletion_blocked_reason %}
+                    <div class="alert alert-warning mt-4">{{ team_deletion_blocked_reason }}</div>
+                    {% endif %}
+                    <form method="post"
+                          action="{% url 'team_delete_cancel' team_id=team.id %}"
+                          class="mt-4">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-contained btn-primary">
+                            Отменить удаление
+                        </button>
+                    </form>
+                {% else %}
+                    <h3 class="text-sm font-semibold text-error">Удалить компанию</h3>
+                    <p class="mt-1 text-sm text-fg-secondary">
+                        После выполнения удаления компания и её участники будут удалены. Действие необратимо. Защищённые данные проектов требуют отдельной процедуры удаления.
+                        {% if team_deletion_delay_hours == 0 %}
+                            <strong>Компания будет удалена сразу.</strong>
+                        {% else %}
+                            <strong>Компания будет удалена через
+                            {{ team_deletion_delay_hours }} ч.</strong>,
+                            до этого времени действие можно отменить.
+                        {% endif %}
+                    </p>
+                    {% if team_deletion_blocked_reason %}
+                    <div class="alert alert-warning mt-4">{{ team_deletion_blocked_reason }}</div>
+                    {% endif %}
+                    <form method="post"
+                          action="{% url 'team_delete' team_id=team.id %}"
+                          class="mt-4"
+                          onsubmit="return confirm('Удалить компанию «{{ team.name|escapejs }}»?');">
+                        {% csrf_token %}
+                        <button type="submit"
+                                class="btn btn-contained btn-error"
+                                {% if team_deletion_blocked_reason %}disabled{% endif %}>
+                            {% if team_deletion_delay_hours == 0 %}
+                                Удалить компанию
+                            {% else %}
+                                Запланировать удаление
+                            {% endif %}
+                        </button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Billing -->
+        {% if SPEEDPY_BILLING_ENABLED and user_role == 'owner' %}
+        <div class="card mt-8">
+            <div class="card-body !p-6 flex flex-wrap items-center justify-between gap-4">
+                <div>
+                    <h3 class="text-sm font-semibold text-fg">Billing</h3>
+                    <p class="mt-1 text-sm text-fg-secondary">
+                        Manage your team's subscription, plan, and payment method.
+                    </p>
+                </div>
+                <a href="{% url 'team_billing' team_id=team.id %}" class="btn btn-outlined btn-primary">
+                    Manage billing
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

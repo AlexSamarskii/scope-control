@@ -1,0 +1,9 @@
+{% load crispy_forms_filters %}
+{% load l10n %}
+
+<select class="select-outlined{% if field.errors %} input-error{% endif %}"
+        name="{{ field.html_name }}" {{ field.field.widget.attrs|flatatt }}>
+    {% for value, label in field.field.choices %}
+        <option value="{{ value }}" {% if value == field.value %}selected{% endif %}>{{ label }}</option>
+    {% endfor %}
+</select>

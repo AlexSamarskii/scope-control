@@ -1,0 +1,24 @@
+{% extends "mainapp/layouts/sidebar_layout.html" %}{% load crispy_forms_tags %}
+{% block head_title %}Решение менеджера · Scope Control{% endblock %}
+{% block main_content %}
+<div class="page-container max-w-4xl py-8">
+  <p class="eyebrow">{{ team.name }} · {{ project.name }}</p>
+  <h1 class="h2 mt-3">{% if card %}Новая редакция решения{% else %}Зафиксировать решение{% endif %}</h1>{% include 'mainapp/scope_control/_workflow_guide.html' %}
+  <p class="mt-4 text-fg-secondary">Выберите собственное решение и введите его основание. Модель не устанавливает условия за вас. Сохранённая редакция останется в истории; новая потребует нового согласования.</p>
+  <section class="card mt-6"><div class="card-body">
+    <h2 class="h3">Запрос клиента · объём, версия {{ client_request.scope_version.number }}</h2>
+    <p class="whitespace-pre-wrap break-words mt-4">{{ client_request.body }}</p>
+    <details class="mt-4"><summary class="text-primary cursor-pointer">Исходные условия и исключения · версия {{ client_request.scope_version.number }}</summary>
+      <h3 class="font-semibold mt-3">Объём работ</h3><div class="whitespace-pre-wrap break-words">{{ client_request.scope_version.body }}</div>
+      <h3 class="font-semibold mt-3">Исключения</h3><div class="whitespace-pre-wrap break-words">{{ client_request.scope_version.exclusions|default:'Не указаны' }}</div>
+      <h3 class="font-semibold mt-3">Правила правок</h3><div class="whitespace-pre-wrap break-words">{{ client_request.scope_version.revision_rules|default:'Не указаны' }}</div>
+    </details>
+    <a class="text-primary inline-block mt-4" href="{% url 'request_detail' team_id=team.pk pk=project.pk request_id=client_request.pk %}">Источники и предложения модели</a>
+  </div></section>
+  <section class="card mt-6"><div class="card-body">
+    <p class="text-fg-secondary mb-4">Оценка нужна только для возможного изменения. Пустая сумма — неизвестная стоимость; 0 — ваша явная бесплатная оценка. Влияние на срок укажите словами, например «дополнительно два рабочих дня».</p>
+    <form method="post" data-conditional-kind="decision">{% csrf_token %}{% crispy form %}<button class="btn btn-contained btn-primary mt-4" type="submit">Сохранить решение</button></form>
+  </div></section>
+  <a class="text-primary inline-block mt-6" href="{% url 'request_detail' team_id=team.pk pk=project.pk request_id=client_request.pk %}">Вернуться к запросу</a>
+</div>
+<div class="page-container pb-8"><a class="text-primary text-sm" href="{{ workflow.workspace_url }}">Вернуться в обзор проекта</a></div>{% endblock %}

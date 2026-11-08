@@ -1,0 +1,22 @@
+{% extends "mainapp/layouts/sidebar_layout.html" %}
+{% load crispy_forms_tags %}
+{% block head_title %}Запрос клиента · Scope Control{% endblock %}
+{% block main_content %}
+<div class="page-container py-8">
+  <p class="eyebrow">{{ team.name }} · {{ project.name }}</p>
+  <h1 class="h2 mt-3">Новый запрос клиента</h1>{% include 'mainapp/scope_control/_workflow_guide.html' %}
+  <p class="mt-4 text-fg-secondary">{% if external_mode %}Модель: YandexGPT Pro 5.1. Используйте только синтетические примеры; отправка в Yandex AI Studio подтверждается отдельно при запуске.{% else %}Тестовый анализ: модель не подключена. Для проверки используйте синтетические примеры.{% endif %}</p>
+  <div class="card mt-6"><div class="card-body">
+  {% if project.versions.exists %}
+    <p class="mb-4">Выберите подтверждённую версию, с которой нужно сравнить запрос. После сохранения текст и выбранная версия не меняются. Анализ запускается отдельно.</p>
+    <form method="post">{% csrf_token %}{% crispy form %}
+      <button class="btn btn-contained btn-primary mt-4" type="submit">Сохранить запрос</button>
+    </form>
+  {% else %}
+    <p>Сначала подтвердите исходный объём проекта.</p>
+    <a class="btn btn-contained btn-primary mt-4" href="{% url 'scope_confirm' team_id=team.pk pk=project.pk %}">Подтвердить объём</a>
+  {% endif %}
+  </div></div>
+  <a class="text-primary inline-block mt-6" href="{% url 'project_detail' team_id=team.pk pk=project.pk %}">Вернуться к проекту</a>
+</div>
+<div class="page-container pb-8"><a class="text-primary text-sm" href="{{ workflow.workspace_url }}">Вернуться в обзор проекта</a></div>{% endblock %}

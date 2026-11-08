@@ -1,0 +1,14 @@
+{% extends "account/base_entrance.html" %}
+{% load allauth i18n socialaccount static %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}{% trans "Email Password" %}{% endblock %}
+
+{% block entrance_title %}{% trans "Change Password" %}{% endblock %}
+{% block entrance_subtitle_wrapper %}{% endblock %}
+
+{% block entrance_content %}
+    {% crispy form %}
+    <a href="{% url 'account_reset_password' %}"
+       class="font-semibold text-primary hover:text-primary-dark">{% trans "Forgot Password?" %}</a>
+{% endblock %}

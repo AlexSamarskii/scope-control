@@ -1,0 +1,12 @@
+{% extends "mainapp/layouts/sidebar_layout.html" %}
+{% load static i18n %}
+
+{% block sidebar_menu %}{% include "components/sidebar_layout/sidebar_menu.html" %}{% endblock sidebar_menu %}
+
+{% block main_content %}
+    <div class="page-container max-w-3xl py-8 lg:py-12">
+        <div class="card mx-auto shadow-speedpyui-1 lg:mx-0 lg:max-w-none">
+            {% block settings_content %}{% endblock %}
+        </div>
+    </div>
+{% endblock main_content %}

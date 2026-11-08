@@ -1,0 +1,7 @@
+{
+  "usage": {"inputTextTokens":"200","completionTokens":"100","totalTokens":"300"},
+  "modelVersion": "test-model-v1",
+  "result": {"schema_version":1,"category":"included","rationale":"Форма явно указана в синтетическом объёме.","citations":[{"source_id":"__SCOPE_ID__","quote":"форма"}],"questions":[]},
+  "truncated_status": "ALTERNATIVE_STATUS_TRUNCATED_FINAL",
+  "filter_status": "ALTERNATIVE_STATUS_CONTENT_FILTER"
+}

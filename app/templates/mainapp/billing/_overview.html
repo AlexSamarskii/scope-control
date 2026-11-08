@@ -1,0 +1,213 @@
+{% comment %}
+Shared billing overview body. Expects context from
+_BillingActionsMixin.get_billing_context: plan_rows, current_plan,
+current_plan_key, subscription, billing_state, has_active_subscription,
+over_limit, portal_url, overview_url, activation_url, activating,
+deletion_scheduled, deletion_scheduled_at.
+{% endcomment %}
+<div x-data="{ yearly: false }">
+
+    {% comment %}
+    A billable on its way out has its billing closed: every button that could
+    start, resume or change a subscription is gone, and the views refuse the
+    same actions if somebody posts to them anyway. A subscription appearing
+    while the deletion runs is the one case the purge cannot finish cleanly,
+    because by then the stored objects are gone.
+    {% endcomment %}
+    {% if deletion_scheduled %}
+        <div class="alert alert-warning mb-6">
+            This team is scheduled for deletion{% if deletion_scheduled_at %} on
+            <strong>{{ deletion_scheduled_at }}</strong>{% endif %}, so its billing is
+            closed. Undo the deletion in team settings if you want to keep it.
+        </div>
+    {% endif %}
+
+    {% comment %}---- Current plan & status ----{% endcomment %}
+    <div class="card">
+        <div class="card-body">
+            <div class="flex flex-wrap items-start justify-between gap-4">
+                <div>
+                    <p class="eyebrow">Current plan</p>
+                    <h2 class="h3 capitalize">{{ current_plan.name }}</h2>
+                    {% if activating %}
+                        {% comment %} Post-checkout: payment succeeded but the provider's
+                           webhook has not landed yet, so the plan above is still
+                           the old one. Say so plainly instead of showing a number
+                           the customer knows is wrong.
+{% endcomment %}
+                        <p id="activation-pending" class="mt-2 text-sm text-fg-secondary">
+                            <span class="badge badge-warning">Activating</span>
+                            Your payment went through. We are activating your
+                            subscription — this usually takes a few seconds.
+                        </p>
+                        <p id="activation-timeout" class="mt-2 text-sm text-fg-secondary" hidden>
+                            This is taking longer than usual. Your payment is safe.
+                            Reload the page in a moment, or contact support if the
+                            plan still looks wrong.
+                        </p>
+                    {% endif %}
+                    {% if subscription %}
+                        <p class="mt-1 text-sm text-fg-secondary">
+                            Status:
+                            {% if billing_state == 'enabled' %}
+                                <span class="badge badge-success">Active</span>
+                            {% elif billing_state == 'grace' %}
+                                <span class="badge badge-warning">Payment past due</span>
+                            {% else %}
+                                <span class="badge badge-error">Inactive</span>
+                            {% endif %}
+                        </p>
+                        {% if subscription.current_period_ends_at %}
+                            <p class="mt-1 text-sm text-fg-secondary">
+                                Renews / ends: {{ subscription.current_period_ends_at|date:"M d, Y" }}
+                            </p>
+                        {% endif %}
+                    {% else %}
+                        <p class="mt-1 text-sm text-fg-secondary">No active subscription.</p>
+                    {% endif %}
+                </div>
+
+                {% if has_active_subscription and not deletion_scheduled %}
+                    <form method="post" action="{{ portal_url }}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outlined btn-primary">
+                            Manage billing
+                        </button>
+                    </form>
+                {% endif %}
+            </div>
+
+            {% if over_limit.team_members %}
+                <div class="alert alert-warning mt-4">
+                    Your team has {{ over_limit.team_members.count }} members but your plan
+                    allows {{ over_limit.team_members.limit }}. Please remove members or upgrade.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {% comment %}---- Plan picker ----{% endcomment %}
+    <div class="mt-8 flex items-center gap-3">
+        <label class="switch">
+            <input type="checkbox" class="sr-only peer" x-model="yearly">
+            <span class="switch-track"></span>
+            <span class="switch-thumb"></span>
+        </label>
+        <span class="text-base text-fg">Yearly billing</span>
+        <span class="badge badge-primary">Save with annual</span>
+    </div>
+
+    <div class="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {% for row in plan_rows %}
+            {% with plan=row.plan %}
+            <div class="card {% if row.is_current %}border-2 border-primary{% endif %}">
+                <div class="card-body flex flex-col h-full">
+                    <h3 class="h4">{{ plan.name }}</h3>
+
+                    {% if plan.is_contact %}
+                        <p class="mt-2 text-2xl font-bold text-fg">Custom</p>
+                    {% else %}
+                        <p class="mt-2 text-2xl font-bold text-fg">
+                            $<span x-text="yearly ? '{{ plan.price_yearly }}' : '{{ plan.price_monthly }}'">{{ plan.price_monthly }}</span>
+                            <span class="text-sm font-medium text-fg-secondary" x-text="yearly ? '/yr' : '/mo'">/mo</span>
+                        </p>
+                    {% endif %}
+
+                    <p class="mt-2 text-sm text-fg-secondary">{{ plan.description }}</p>
+
+                    <ul class="mt-4 space-y-2 text-sm text-fg-secondary list-none p-0 m-0 flex-grow">
+                        {% for feature in plan.features %}
+                            <li>• {{ feature }}</li>
+                        {% endfor %}
+                    </ul>
+
+                    <div class="mt-6">
+                        {% if row.is_current %}
+                            <button class="btn btn-contained btn-primary w-full" disabled>
+                                Current plan
+                            </button>
+                        {% elif plan.is_contact %}
+                            <a href="{% url 'contact' %}" class="btn btn-outlined btn-primary w-full">
+                                Contact us
+                            </a>
+                        {% elif not plan.is_paid %}
+                            {% comment %}Free tier — downgrade is handled via the portal/cancellation{% endcomment %}
+                            <span class="text-xs text-fg-secondary">Default plan</span>
+                        {% elif deletion_scheduled %}
+                            <span class="text-xs text-fg-secondary">Billing closed</span>
+                        {% elif has_active_subscription %}
+                            <form method="post" action="{{ portal_url }}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outlined btn-primary w-full">
+                                    Change in portal
+                                </button>
+                            </form>
+                        {% elif deletion_scheduled %}
+                            <span class="text-xs text-fg-secondary">Billing closed</span>
+                        {% else %}
+                            <a x-show="!yearly" href="{{ row.checkout_monthly_url }}"
+                               class="btn btn-contained btn-primary w-full">
+                                Choose {{ plan.name }}
+                            </a>
+                            <a x-show="yearly" href="{{ row.checkout_yearly_url }}"
+                               class="btn btn-contained btn-primary w-full" style="display:none;">
+                                Choose {{ plan.name }}
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endwith %}
+        {% endfor %}
+    </div>
+</div>
+
+{% if activating %}
+{% comment %} Bounded polling with backoff, not a blind timed reload: a fixed delay guesses
+   wrong in both directions (too early shows the old plan a second time, too late
+   reloads for nothing). We ask the server until the plan really flips, then
+   reload once to render the full correct state, and give up loudly instead of
+   spinning forever.
+{% endcomment %}
+<script>
+    (function () {
+        var statusUrl = "{{ activation_url }}";
+        var overviewUrl = "{{ overview_url }}";
+        var pendingEl = document.getElementById("activation-pending");
+        var timeoutEl = document.getElementById("activation-timeout");
+        // Backoff in ms; the sum is the give-up budget (~64s).
+        var delays = [1000, 1000, 2000, 3000, 5000, 8000, 8000, 12000, 12000, 12000];
+        var attempt = 0;
+
+        function giveUp() {
+            if (pendingEl) { pendingEl.hidden = true; }
+            if (timeoutEl) { timeoutEl.hidden = false; }
+        }
+
+        function poll() {
+            if (attempt >= delays.length) { giveUp(); return; }
+            var wait = delays[attempt];
+            attempt += 1;
+            window.setTimeout(function () {
+                window.fetch(statusUrl, {
+                    credentials: "same-origin",
+                    headers: { "X-Requested-With": "XMLHttpRequest" }
+                })
+                    .then(function (resp) { return resp.ok ? resp.json() : null; })
+                    .then(function (data) {
+                        if (data && data.has_active_subscription) {
+                            // Reload without ?activating so the server renders the
+                            // real plan, portal button and limits.
+                            window.location.replace(overviewUrl);
+                            return;
+                        }
+                        poll();
+                    })
+                    .catch(function () { poll(); });
+            }, wait);
+        }
+
+        poll();
+    })();
+</script>
+{% endif %}

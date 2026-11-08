@@ -1,0 +1,3 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><title>Приглашение в Scope Control</title></head><body style="font-family:Arial,sans-serif;line-height:1.6;max-width:600px;margin:auto;padding:24px">
+<h1>Приглашение в {{ team_name }}</h1><p>{{ inviter_name }} приглашает вас в рабочее пространство Scope Control.</p><p>Роль: <strong>{{ role }}</strong>.</p>{% if message %}<blockquote>{{ message }}</blockquote>{% endif %}
+<p><a href="{{ accept_url }}">Открыть приглашение</a></p><p>Войдите с приглашённым адресом или создайте аккаунт и подтвердите почту. Ссылка действует до {{ expires_at|date:'d.m.Y H:i' }}.</p><p><a href="{{ decline_url }}">Отклонить приглашение</a></p></body></html>

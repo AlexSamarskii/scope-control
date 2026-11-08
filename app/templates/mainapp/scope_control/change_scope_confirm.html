@@ -1,0 +1,34 @@
+{% extends "mainapp/layouts/sidebar_layout.html" %}{% load crispy_forms_tags %}
+{% load scope_ui %}
+{% block head_title %}Внести изменение в объём · Scope Control{% endblock %}
+{% block main_content %}
+<div class="page-container max-w-4xl py-8">
+  <p class="eyebrow">{{ team.name }} · {{ project.name }}</p>
+  <h1 class="h2 mt-3">Внести принятое изменение в объём</h1>{% include 'mainapp/scope_control/_workflow_guide.html' %}
+  <p class="mt-4">Редакция решения {{ current.number }} · {{ current.amount_label|readable_money }} · {{ current.deadline_effect }}</p>
+  <p class="whitespace-pre-wrap break-words mt-3">{{ current.description }}</p>
+  <p class="text-fg-secondary mt-4">Поля заполнены исходными условиями. Внесите согласованное изменение, проверьте различия и отдельно подтвердите сохранение. Предыдущая версия останется неизменной. Если исходный объём уже изменился, создайте новый запрос по актуальной версии и проверьте решение заново.</p>
+  <details class="card mt-6"><summary class="card-body cursor-pointer">Исходный объём · версия {{ card.client_request.scope_version.number }}</summary><div class="card-body pt-0">
+    <h2 class="h3">Объём работ</h2><div class="whitespace-pre-wrap break-words mt-3">{{ card.client_request.scope_version.body }}</div>
+    <h2 class="h3 mt-4">Исключения</h2><div class="whitespace-pre-wrap break-words mt-3">{{ card.client_request.scope_version.exclusions }}</div>
+    <h2 class="h3 mt-4">Правила правок</h2><div class="whitespace-pre-wrap break-words mt-3">{{ card.client_request.scope_version.revision_rules }}</div>
+  </div></details>
+  {% if preview %}<section class="card mt-6"><div class="card-body"><h2 class="h3">Предпросмотр — ещё не подтверждено</h2>
+    <h3 class="h3 mt-4">Что изменится</h3>
+    {% for field in scope_diff %}<section class="mt-4"><h4 class="font-semibold">{{ field.label }}{% if not field.changed %} · без изменений{% endif %}</h4>
+      {% for kind, text in field.changes %}<div class="rounded p-3 mt-2 {% if kind == 'removed' %}bg-error/10 border border-error{% elif kind == 'added' %}bg-success/10 border border-success{% else %}bg-background{% endif %}">
+        {% if kind == 'removed' %}<p class="font-semibold text-sm">Удаляется</p>{% elif kind == 'added' %}<p class="font-semibold text-sm">Добавляется</p>{% endif %}<div class="whitespace-pre-wrap break-words">{{ text|default:'Не указано' }}</div></div>{% endfor %}
+    </section>{% endfor %}
+    <h3 class="h3 mt-6">Полный текст новой версии</h3>
+    <h3 class="h4 mt-4">Объём работ</h3><div class="whitespace-pre-wrap break-words">{{ preview.body }}</div>
+    <h3 class="h4 mt-4">Исключения</h3><div class="whitespace-pre-wrap break-words">{{ preview.exclusions }}</div>
+    <h3 class="h4 mt-4">Правила правок</h3><div class="whitespace-pre-wrap break-words">{{ preview.revision_rules }}</div>
+    <p class="text-fg-secondary mt-4">Если измените текст, повторите предпросмотр. Подтверждение действует 30 минут.</p>
+  </div></section>{% endif %}
+  <section class="card mt-6"><div class="card-body"><form method="post">{% csrf_token %}{% crispy form %}<div class="flex flex-wrap gap-3 mt-4">
+    <button class="btn btn-outlined btn-primary" name="action" value="preview" type="submit" formnovalidate>Предпросмотр</button>
+    <button class="btn btn-contained btn-primary" name="action" value="confirm" type="submit">Подтвердить новую версию</button>
+  </div></form></div></section>
+  <a class="text-primary inline-block mt-6" href="{% url 'change_detail' team_id=team.pk pk=project.pk card_id=card.pk %}">Вернуться к карточке</a>
+</div>
+<div class="page-container pb-8"><a class="text-primary text-sm" href="{{ workflow.workspace_url }}">Вернуться в обзор проекта</a></div>{% endblock %}

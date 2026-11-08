@@ -1,0 +1,14 @@
+{% extends "mainapp/layouts/sidebar_layout.html" %}{% load crispy_forms_tags %}
+{% load scope_ui %}
+{% block head_title %}Ответ клиента · Scope Control{% endblock %}
+{% block main_content %}
+<div class="page-container max-w-4xl py-8">
+  <p class="eyebrow">{{ team.name }} · {{ project.name }}</p>
+  <h1 class="h2 mt-3">Зафиксировать действие</h1>{% include 'mainapp/scope_control/_workflow_guide.html' %}
+  <p class="mt-4">Редакция {{ current.number }} · {{ current.category_label }} · {{ current.amount_label|readable_money }}</p>
+  <p class="whitespace-pre-wrap break-words mt-3">Влияние на срок: {{ current.deadline_effect|default:'Не определено' }}</p>
+  <p class="text-fg-secondary mt-4">Сначала передайте условия клиенту самостоятельно. Для отметки передачи оставьте поля ответа пустыми. Чтобы записать принятие или отказ, укажите отправителя, дату и текст основания. Запись менеджера не подтверждает электронную подпись, доставку или оплату. Исправление основания — новая редакция решения.</p>
+  <section class="card mt-6"><div class="card-body"><form method="post" data-conditional-kind="event">{% csrf_token %}{% crispy form %}<button class="btn btn-contained btn-primary mt-4" type="submit">Зафиксировать действие</button></form></div></section>
+  <a class="text-primary inline-block mt-6" href="{% url 'change_detail' team_id=team.pk pk=project.pk card_id=card.pk %}">Вернуться к карточке</a>
+</div>
+<div class="page-container pb-8"><a class="text-primary text-sm" href="{{ workflow.workspace_url }}">Вернуться в обзор проекта</a></div>{% endblock %}

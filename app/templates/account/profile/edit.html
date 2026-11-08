@@ -1,0 +1,34 @@
+{% extends "account/base_manage.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}Мой профиль{% endblock %}
+
+{% block settings_content %}
+    <div class="card-header">
+        <h2 class="h3 mb-0">Мой профиль</h2>
+    </div>
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+
+            <div class="mb-6 flex items-center gap-4">
+                {% if user.profile_picture %}
+                    <img src="{% url 'profile_avatar' %}"
+                         alt="{{ user.get_full_name|default:user.email }}"
+                         class="h-24 w-24 rounded-full border border-divider object-cover">
+                {% else %}
+                    <div class="media-icon h-24 w-24 rounded-full border border-divider bg-background text-2xl font-semibold text-fg">
+                        {{ user.first_name|default:user.email|slice:":1"|upper }}{{ user.last_name|slice:":1"|upper }}
+                    </div>
+                {% endif %}
+                <div class="text-sm text-fg">
+                    <p class="font-medium">{{ user.get_full_name|default:user.email }}</p>
+                    <p class="text-fg-secondary">{{ user.email }}</p>
+                </div>
+            </div>
+
+            {% crispy form %}
+        </form>
+    </div>
+{% endblock %}

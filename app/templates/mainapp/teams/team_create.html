@@ -1,0 +1,91 @@
+{% extends "mainapp/layouts/sidebar_layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}Создать компанию{% endblock %}
+
+{% block main_content %}
+<main class="w-full">
+    <div class="mx-auto w-full max-w-3xl px-4 py-8 sm:px-6 lg:py-12">
+        <div class="mb-6">
+            <h1 class="mb-2 text-3xl font-semibold leading-tight text-fg">Создать компанию</h1>
+            <nav class="flex items-center gap-2 text-sm font-semibold" aria-label="Навигация">
+                <a href="{% url 'dashboard' %}" class="text-primary hover:text-primary-dark">Рабочий экран</a>
+                <span class="text-fg-secondary">/</span>
+                <span class="text-fg-secondary">Компании</span>
+            </nav>
+        </div>
+
+        <form method="post"
+              novalidate
+              x-data="{
+                  slugTouched: false,
+                  slugify(text) {
+                      return text
+                          .toString()
+                          .toLowerCase()
+                          .trim()
+                          .replace(/\s+/g, '-')
+                          .replace(/[^\w\-]+/g, '')
+                          .replace(/\-\-+/g, '-')
+                          .replace(/^-+/, '')
+                          .replace(/-+$/, '');
+                  },
+                  updateSlug() {
+                      const nameField = document.getElementById('id_name');
+                      const slugField = document.getElementById('id_slug');
+
+                      if (!this.slugTouched && nameField && slugField) {
+                          slugField.value = this.slugify(nameField.value);
+                      }
+                  },
+                  init() {
+                      const nameField = document.getElementById('id_name');
+                      const slugField = document.getElementById('id_slug');
+
+                      if (nameField) {
+                          nameField.addEventListener('input', () => this.updateSlug());
+                      }
+
+                      if (slugField) {
+                          slugField.addEventListener('input', () => { this.slugTouched = true; });
+                      }
+
+                      // Auto-detect the browser time zone into the hidden field.
+                      // Exception-safe: a detection failure must not disrupt the
+                      // slug wiring above. Server falls back to the default if
+                      // this stays blank (JS off / unknown zone).
+                      try {
+                          const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                          const tzField = document.getElementById('id_timezone');
+                          if (tz && tzField) { tzField.value = tz; }
+                      } catch (e) { /* leave blank; server uses the default */ }
+                  }
+              }">
+            {% csrf_token %}
+
+            <section class="rounded-lg border border-divider bg-background-paper shadow-speedpyui-16">
+                <div class="grid gap-6 p-6 md:grid-cols-[minmax(0,220px)_1fr] md:p-8">
+                    <div>
+                        <h2 class="mb-2 text-lg font-semibold text-fg">Данные компании</h2>
+                        <p class="mb-0 text-sm leading-6 text-fg-secondary">
+                            Укажите название студии или компании. Её проекты и участники будут доступны в отдельном рабочем пространстве.
+                        </p>
+                    </div>
+                    <div>
+                        {% crispy form %}
+                    </div>
+                </div>
+            </section>
+
+            <div class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+                <a href="{% url 'dashboard' %}" class="btn btn-outlined btn-inherit">
+                    Отмена
+                </a>
+                <button type="submit" class="btn btn-contained btn-primary">
+                    Создать компанию
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
+{% endblock %}

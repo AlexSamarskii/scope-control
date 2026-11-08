@@ -1,0 +1,35 @@
+<div x-show="userMenuOpen"
+     x-cloak
+     @click.outside="userMenuOpen = false"
+     class="absolute right-0 z-50 mt-3 w-64 overflow-hidden rounded-lg border border-divider bg-background-paper text-base shadow-speedpyui-16">
+    <div class="border-b border-divider px-4 py-3" role="none">
+        <p class="mb-1 truncate text-sm font-semibold text-fg" role="none">
+            {{ user.get_full_name|default:user.email }}
+        </p>
+        <p class="mb-0 truncate text-sm text-fg-secondary" role="none">
+            {{ user.email }}
+        </p>
+    </div>
+    <ul class="py-2" role="none">
+        <li>
+            <a href="{% url "dashboard" %}"
+               class="block px-4 py-2 text-sm font-medium text-fg-secondary transition-colors hover:bg-primary/5 hover:text-primary"
+               role="menuitem">Проекты</a>
+        </li>
+        <li>
+            <a href="{% url "account_profile" %}"
+               class="block px-4 py-2 text-sm font-medium text-fg-secondary transition-colors hover:bg-primary/5 hover:text-primary"
+               role="menuitem">Профиль</a>
+        </li>
+        <li>
+            <a href="{% url "account_change_password" %}"
+               class="block px-4 py-2 text-sm font-medium text-fg-secondary transition-colors hover:bg-primary/5 hover:text-primary"
+               role="menuitem">Пароль и безопасность</a>
+        </li>
+        <li>
+            <a href="{% url "account_logout" %}"
+               class="block px-4 py-2 text-sm font-medium text-fg-secondary transition-colors hover:bg-primary/5 hover:text-primary"
+               role="menuitem">Выйти</a>
+        </li>
+    </ul>
+</div>

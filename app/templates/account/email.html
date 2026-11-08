@@ -1,0 +1,96 @@
+{% extends "account/base_manage.html" %}
+{% load allauth i18n %}
+{% load crispy_forms_tags static %}
+
+{% block head_title %}
+    {% trans "Email Addresses" %}
+{% endblock head_title %}
+
+{% block settings_content %}
+    {% include "account/snippets/_suppression_warning.html" %}
+    <div class="card-header">
+        <h2 class="h3 mb-0">{% trans "Email Addresses" %}</h2>
+    </div>
+    <div class="card-body">
+        {% if emailaddresses %}
+            <p class="text-fg">{% trans 'The following email addresses are associated with your account:' %}</p>
+            {% url 'account_email' as email_url %}
+            {% element form form=form action=email_url method="post" %}
+                {% slot body %}
+                    {% csrf_token %}
+                    <ul class="list-group mb-4">
+                    {% for radio in emailaddress_radios %}
+                        {% with emailaddress=radio.emailaddress %}
+                        <li>
+                            <label class="list-group-item flex cursor-pointer items-start gap-3 transition-colors hover:bg-primary/5">
+                                <input type="radio"
+                                       class="radio mt-0.5"
+                                       name="email"
+                                       value="{{ emailaddress.email }}"
+                                       id="{{ radio.id }}"
+                                       {% if radio.checked %}checked{% endif %}>
+                                <span class="flex flex-wrap items-center gap-2 text-fg">
+                                    <span class="font-medium">{{ emailaddress.email }}</span>
+                                    {% if emailaddress.verified %}
+                                        <span class="badge badge-success">
+                                            {% translate "Verified" %}
+                                        </span>
+                                    {% else %}
+                                        <span class="badge badge-warning">
+                                            {% translate "Unverified" %}
+                                        </span>
+                                    {% endif %}
+                                    {% if emailaddress.primary %}
+                                        <span class="badge badge-primary">
+                                            {% translate "Primary" %}
+                                        </span>
+                                    {% endif %}
+                                </span>
+                            </label>
+                        </li>
+                        {% endwith %}
+                    {% endfor %}
+                    </ul>
+                {% endslot %}
+
+                {% slot actions %}
+                    <div class="flex flex-wrap gap-2 py-4">
+                        <button type="submit" name="action_primary" class="btn btn-contained btn-primary btn-sm">
+                            {% trans 'Make Primary' %}
+                        </button>
+                        <button type="submit" name="action_send" class="btn btn-outlined btn-primary btn-sm">
+                            {% trans 'Re-send Verification' %}
+                        </button>
+                        <button type="submit" name="action_remove" class="btn btn-outlined btn-error btn-sm">
+                            {% trans 'Remove' %}
+                        </button>
+                    </div>
+                {% endslot %}
+
+            {% endelement %}
+        {% else %}
+            {% include "account/snippets/warn_no_email.html" %}
+        {% endif %}
+        {% if can_add_email %}
+            <h3 class="h3 mt-6">{% trans "Add Email Address" %}</h3>
+            {% url 'account_email' as action_url %}
+            {% crispy form %}
+        {% endif %}
+    </div>
+{% endblock settings_content %}
+
+{% block extra_body %}
+    <script type="text/javascript">
+      (function () {
+        var message = "{% trans 'Do you really want to remove the selected email address?' %}";
+        var actions = document.getElementsByName('action_remove');
+        if (actions.length) {
+          actions[0].addEventListener("click", function (e) {
+            if (!confirm(message)) {
+              e.preventDefault();
+            }
+          });
+        }
+      })();
+    </script>
+{% endblock extra_body %}

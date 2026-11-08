@@ -1,0 +1,14 @@
+{% extends "mainapp/layouts/sidebar_layout.html" %}
+{% block main_content %}
+<div class="max-w-3xl mx-auto p-6 space-y-4">
+<h1 class="text-2xl font-bold">Запрос удаления проекта</h1>
+<p>{{ project.name }}</p>
+<p>После подтверждения проект сразу станет недоступен. Отмены запроса нет. Физическое удаление выполнит оператор после остановки обработки; до этого данные ожидают удаления.</p>
+<p>Копии действуют 7 суток, удаляются ежедневной уборкой (до 8 суток при работающем расписании). Минимальные UUID и даты удаления хранятся 30 суток, счётчики квот — 48 часов. Денежный реестр сохраняет общий лимит. Уже скачанные выгрузки и отправленные провайдеру данные отозвать невозможно.</p>
+<form method="post" class="space-y-4">{% csrf_token %}{{ form.as_p }}
+{% if preview %}<p role="status">Проверьте название. Подтверждение закроет доступ ко всему проекту.</p><button class="btn btn-primary" name="action" value="confirm">Подтвердить запрос удаления</button>
+{% else %}<button class="btn btn-primary" name="action" value="preview">Предпросмотр удаления</button>{% endif %}
+</form>
+<a href="{% url 'project_detail' team_id=team.pk pk=project.pk %}">Вернуться к проекту</a>
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "mainapp/layouts/sidebar_layout.html" %}
+{% load tz %}
+{% block head_title %}Запрос клиента · Scope Control{% endblock %}
+{% block main_content %}
+<div class="page-container py-8">
+  <p class="eyebrow break-words">{{ team.name }} · {{ client_request.scope_version.project.name }}</p>
+  <h1 class="h2 mt-3">Запрос клиента</h1>{% include 'mainapp/scope_control/_workflow_guide.html' %}
+  <p class="mt-4">{% if external_mode %}Модель: YandexGPT Pro 5.1. Внешняя обработка в Yandex AI Studio, только синтетические данные.{% elif workflow.manual %}Ручной режим: модель не подключена.{% else %}Тестовый анализ: модель не подключена.{% endif %} Результат не является решением менеджера или согласованием клиента.</p>
+  <a class="text-primary inline-block mt-3" href="{% url 'scope_version' team_id=team.pk pk=client_request.scope_version.project_id version_id=client_request.scope_version_id %}">Исходный объём: версия {{ client_request.scope_version.number }}</a>
+  <section class="card mt-6"><div class="card-body">
+    <h2 class="h3">Исходный запрос</h2>
+    <div class="whitespace-pre-wrap break-words mt-4">{{ client_request.body }}</div>
+    <h3 class="h3 mt-6">Источник</h3>
+    <div class="whitespace-pre-wrap break-words mt-3">{{ client_request.source_description|default:'Не указан' }}</div>
+    <p class="text-fg-secondary text-sm break-words mt-4">Сохранил {{ client_request.created_by.email }} · {{ client_request.created_at|timezone:team.tzinfo|date:'d.m.Y H:i T' }}. Исправление сохраняется новым запросом.</p>
+  </div></section>
+  <details class="card mt-6"{% if active_run %} open{% endif %}><summary class="card-body cursor-pointer font-semibold text-primary focus-visible:ring-2 focus-visible:ring-primary">Дополнительный анализ и история запусков</summary><div class="card-body pt-0">
+    <h2 class="h3">Запуски анализа</h2>
+    {% if user_role == 'owner' or user_role == 'admin' %}
+      {% if analysis_enabled and not active_run %}
+      <form method="post" action="{% url 'request_analyze' team_id=team.pk pk=client_request.scope_version.project_id request_id=client_request.pk %}" class="mt-4">
+        {% csrf_token %}{{ start_form.start_key }}{% if external_mode %}<label class="flex items-start gap-3 mt-4"><span class="mt-1">{{ start_form.external_processing_confirmed }}</span><span class="break-words min-w-0">{{ start_form.external_processing_confirmed.label }}</span></label>{% endif %}{% if external_mode %}<p class="text-fg-secondary mt-3">Будут переданы текст запроса, объём, исключения и правила правок выбранной версии. Описание источника и ссылки не передаются. На попытку резервируется до 27,8528 ₽; общий лимит подключения — 100 ₽.</p>{% endif %}<button class="btn btn-contained btn-primary mt-4" type="submit">{% if external_mode %}Запустить анализ моделью{% else %}Запустить тестовый анализ{% endif %}</button>
+      </form>
+      {% elif active_run %}<p class="mt-4">Обработка уже запрошена. Ожидание сохраняется и при недоступной очереди.</p>
+      {% else %}<p class="mt-4">Тестовый анализ отключён. Запрос сохранён.</p>{% endif %}
+    {% endif %}
+    <a class="btn btn-outlined btn-primary mt-4" href="{% url 'request_detail' team_id=team.pk pk=client_request.scope_version.project_id request_id=client_request.pk %}">Обновить статус</a>
+    {% for run in runs %}
+    <article class="border-t mt-6 pt-6">
+      <h3 class="h3">{{ run.result_status_label }}</h3>
+      {% if run.backend == 'yandex' %}<p class="text-fg-secondary mt-2">YandexGPT Pro 5.1 · исходники отправляются в Yandex AI Studio</p>{% else %}<p class="text-fg-secondary mt-2">Тестовый анализ: модель не подключена.</p>{% endif %}
+      <p class="text-fg-secondary text-sm mt-2">{{ run.created_at|timezone:team.tzinfo|date:'d.m.Y H:i:s T' }} · Попыток: {{ run.attempt_count }} из 3</p>
+      {% if run.error_code %}<p class="mt-3">{{ run.error_label }}</p>{% endif %}
+      {% if run.status == 'validated' %}
+        <p class="mt-4 font-semibold">Предложенная категория: {{ run.category_label }}</p>
+        <p class="whitespace-pre-wrap break-words mt-3">{{ run.validated_result.rationale }}</p>
+        {% for citation in run.presented_citations %}
+          <figure class="mt-4"><figcaption class="text-fg-secondary">{{ citation.label }}</figcaption><blockquote class="whitespace-pre-wrap break-words border-l pl-4 mt-2">{{ citation.quote }}</blockquote></figure>
+        {% endfor %}
+        {% if run.validated_result.questions %}<h4 class="font-semibold mt-4">Нужно уточнить</h4><ul class="list-disc pl-6 mt-2">{% for question in run.validated_result.questions %}<li class="break-words">{{ question }}</li>{% endfor %}</ul>{% endif %}
+        <p class="text-fg-secondary mt-4">Проверка цитаты подтверждает совпадение с источником, но не правильность вывода.</p>
+      {% endif %}
+      {% if run.attempt_count %}<details class="mt-4"><summary>История попыток</summary><ul class="mt-3">{% for attempt in run.attempts.all %}<li>Попытка {{ attempt.number }} — {{ attempt.outcome_label }} · {{ attempt.started_at|timezone:team.tzinfo|date:'d.m.Y H:i:s T' }}{% if attempt.charge %}<div class="text-fg-secondary break-words mt-2">{{ attempt.charge.state_label }}: {{ attempt.charge.amount_rub }} ₽{% if attempt.charge.usage %} · Вход: {{ attempt.charge.usage.inputTextTokens }}, ответ: {{ attempt.charge.usage.completionTokens }} токенов · версия модели {{ attempt.charge.model_version }}{% endif %}. Это расходы обработки, не цена правки для клиента.</div>{% endif %}</li>{% endfor %}</ul></details>{% endif %}
+    </article>
+    {% empty %}<p class="mt-6">Анализ ещё не запускался.</p>{% endfor %}
+    {% if runs.has_previous %}<a class="text-primary inline-block mt-4 mr-4" href="?page={{ runs.previous_page_number }}">Новые запуски</a>{% endif %}
+    {% if runs.has_next %}<a class="text-primary inline-block mt-4" href="?page={{ runs.next_page_number }}">Предыдущие запуски</a>{% endif %}
+  </div></details>
+  <a class="text-primary inline-block mt-6" href="{% url 'project_detail' team_id=team.pk pk=client_request.scope_version.project_id %}">Вернуться к проекту</a>
+</div>
+<div class="page-container pb-8"><section class="card"><div class="card-body"><h2 class="h3">Решение менеджера</h2><p class="text-fg-secondary mt-3">Проверенный ответ модели остаётся предложением. Решение и условия сохраняются отдельным явным действием.</p>
+{% if client_request.change_card %}<a class="text-primary inline-block mt-4" href="{% url 'change_detail' team_id=team.pk pk=client_request.scope_version.project_id card_id=client_request.change_card.pk %}">Открыть решение менеджера</a>
+{% elif user_role == 'owner' or user_role == 'admin' %}<a class="text-primary inline-block mt-4" href="{% url 'change_create' team_id=team.pk pk=client_request.scope_version.project_id request_id=client_request.pk %}">Зафиксировать решение</a>{% else %}<p class="mt-3">Решение ещё не сохранено.</p>{% endif %}</div></section></div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% load static %}
+<div class="sidebar">
+  <a href="{% url 'dashboard' %}" class="sidebar-brand">
+    <img src="{% static LOGO_PATH %}" alt="" class="sidebar-brand-mark">
+    <span class="sidebar-brand-text">Scope Control</span>
+  </a>
+  <nav aria-label="Навигация">
+    <p class="sidebar-section-label">Рабочее пространство</p>
+    <ul class="sidebar-nav">
+      <li><a href="{% if team %}{% url 'project_list' team_id=team.pk %}{% else %}{% url 'dashboard' %}{% endif %}" class="sidebar-link{% if '/projects/' in request.path %} sidebar-link-active{% endif %}"{% if '/projects/' in request.path %} aria-current="page"{% endif %}>
+        <svg class="sidebar-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 4h7v7H3zM14 4h7v7h-7zM3 15h7v5H3zM14 15h7v5h-7z"/></svg>
+        Рабочий экран
+      </a></li>
+      {% if team %}
+      <li><a href="{% url 'team_members' team_id=team.pk %}" class="sidebar-link{% if '/members/' in request.path %} sidebar-link-active{% endif %}"{% if '/members/' in request.path %} aria-current="page"{% endif %}>
+        <svg class="sidebar-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3M16 5a3 3 0 0 1 0 6M21 21v-3a6 6 0 0 0-3-5.2"/></svg>
+        Участники компании
+      </a></li>
+      {% if user_role == 'owner' or user_role == 'admin' %}
+      <li><a href="{% url 'team_settings' team_id=team.pk %}" class="sidebar-link{% if '/settings/' in request.path %} sidebar-link-active{% endif %}"{% if '/settings/' in request.path %} aria-current="page"{% endif %}>
+        <svg class="sidebar-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 7h16M4 17h16"/><path d="M8 4v6M16 14v6" stroke-width="3"/></svg>
+        Настройки компании
+      </a></li>
+      {% endif %}{% endif %}
+      <li><a href="{% url 'account_profile' %}" class="sidebar-link{% if '/accounts/' in request.path %} sidebar-link-active{% endif %}"{% if '/accounts/' in request.path %} aria-current="page"{% endif %}>
+        <svg class="sidebar-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="7" r="4"/><path d="M4 22v-3a8 8 0 0 1 16 0v3"/></svg>
+        Профиль
+      </a></li>
+    </ul>
+  </nav>
+  {% if SIDEBAR_TEAM %}<div class="sidebar-company mt-8"><p class="sidebar-section-label">Компания</p>{% include "components/team_selector/team_dropdown_selector.html" %}</div>{% endif %}
+</div>

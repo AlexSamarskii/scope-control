@@ -1,0 +1,12 @@
+{% extends "mainapp/layouts/sidebar_layout.html" %}
+{% block main_content %}
+<div class="max-w-3xl mx-auto p-6 space-y-4">
+<h1 class="text-2xl font-bold">Удаление проекта</h1>
+<p>Операция: {{ receipt.pk }}</p><p>Статус: {{ receipt.get_status_display }}</p>
+<p>Запрошено: {{ receipt.requested_at }}</p>
+{% if receipt.completed_at %}<p>Завершено: {{ receipt.completed_at }}</p>{% else %}<p>Доступ закрыт. Физическое удаление ожидает оператора и остановки обработки.</p>{% endif %}
+{% if receipt.error_code %}<p>Оператору требуется повторить проверку операции.</p>{% endif %}
+<p>Ранее скачанные выгрузки и переданные провайдеру данные отозвать невозможно. Резервные копии и минимальные служебные записи удаляются по срокам хранения; денежный реестр сохраняет общий лимит.</p>
+<a href="{% url 'project_list' team_id=team.pk %}">К списку проектов</a>
+</div>
+{% endblock %}

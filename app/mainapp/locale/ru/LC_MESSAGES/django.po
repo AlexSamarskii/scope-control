@@ -1,0 +1,432 @@
+# Russian translations for local Scope Control UI; upstream notices retained.
+msgid ""
+msgstr ""
+"Project-Id-Version: Scope Control\n"
+"PO-Revision-Date: 2026-11-08 00:00+0300\n"
+"Last-Translator: Scope Control\n"
+"Language-Team: Russian\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: templates/account/password_reset_from_key.html
+#, python-format
+msgid ""
+"The password reset link was invalid, possibly because it has already been used.\n"
+"                Please request a <a href=\"%(passwd_reset_url)s\">new password reset</a>."
+msgstr "Ссылка для сброса пароля недействительна или уже использована. <a href=\"%(passwd_reset_url)s\">Запросите новую ссылку</a>."
+
+#: templates/account/password_reset_done.html
+msgid ""
+"\n"
+"            We have sent you an email.\n"
+"            <br>\n"
+"            <br>\n"
+"            If you have not received it please check your spam folder.\n"
+"            <br>\n"
+"            <br>\n"
+"            Otherwise, contact us if you do not receive it in a few minutes."
+msgstr ""
+"\n"
+"Мы отправили вам письмо.<br><br>Если его нет во входящих, проверьте папку «Спам».<br><br>Если письмо не придёт в течение нескольких минут, обратитесь в поддержку."
+
+#: templates/account/email_confirm.html
+#, python-format
+msgid ""
+"Please confirm that\n"
+"                    <a href=\"mailto:%(email)s\">%(email)s</a> is an email address for user\n"
+"                    %(user_display)s."
+msgstr "Подтвердите, что адрес <a href=\"mailto:%(email)s\">%(email)s</a> принадлежит пользователю %(user_display)s."
+
+#: templates/account/email_confirm.html
+#, python-format
+msgid ""
+"Unable to confirm %(email)s because it is already confirmed by a different\n"
+"                    account."
+msgstr "Не удалось подтвердить %(email)s: адрес уже подтверждён в другом аккаунте."
+
+#: templates/account/email_confirm.html
+#, python-format
+msgid ""
+"This email confirmation link expired or is invalid. Please\n"
+"                <a href=\"%(email_url)s\" class=\"font-semibold text-primary hover:text-primary-dark\">issue\n"
+"                    a new email confirmation request</a>."
+msgstr "Ссылка подтверждения недействительна или её срок истёк. <a href=\"%(email_url)s\" class=\"font-semibold text-primary hover:text-primary-dark\">Запросите новое письмо подтверждения</a>."
+
+#: templates/account/password_reset.html
+msgid "Forgotten your password? Enter your email address below, and we'll send you a reset link."
+msgstr "Забыли пароль? Введите адрес электронной почты — мы отправим ссылку для его сброса."
+
+#: templates/account/email_change.html
+msgid "Email Password"
+msgstr "Электронная почта"
+
+#: templates/account/verification_sent.html
+msgid ""
+"We have sent an email to you for verification.\n"
+"            <br><br>\n"
+"            Follow the link provided to finalize the signup process.\n"
+"            <br><br>\n"
+"            If you do not see the verification email in your main inbox, check your\n"
+"            spam folder. Please contact us if you do not receive the verification\n"
+"            email within a few minutes."
+msgstr "Мы отправили письмо для подтверждения адреса.<br><br>Перейдите по ссылке в письме, чтобы завершить регистрацию.<br><br>Проверьте также папку «Спам». Если письмо не придёт в течение нескольких минут, обратитесь в поддержку."
+
+#: templates/account/snippets/_suppression_warning.html
+#, python-format
+msgid "We stopped sending email to %(email)s"
+msgstr "Отправка писем на %(email)s приостановлена"
+
+#: templates/account/snippets/_suppression_warning.html
+msgid "This address reported our email as spam, so nothing is sent there now — including password reset links."
+msgstr "С этого адреса поступила жалоба на спам. Мы больше не отправляем на него письма, включая ссылки для сброса пароля."
+
+#: templates/account/snippets/_suppression_warning.html
+msgid "Our messages kept failing, so nothing is sent there now — including password reset links. Usually that means a full mailbox, an address or domain that no longer exists, or a mail server rejecting us."
+msgstr "Письма на этот адрес не доставлялись, поэтому отправка приостановлена, включая ссылки для сброса пароля. Возможные причины: переполненный ящик, несуществующий адрес или домен, отказ почтового сервера."
+
+#: templates/account/snippets/_suppression_warning.html
+#, python-format
+msgid "Email %(support)s once it works again and we will switch it back on — we do not do that automatically, because retrying a broken address can get our email blocked for everyone."
+msgstr "Когда адрес снова заработает, напишите на %(support)s для возобновления отправки. Мы не включаем её автоматически: повторные попытки на неработающий адрес могут привести к блокировке всей нашей почты."
+
+#: templates/account/snippets/_suppression_warning.html
+msgid "You have no working email address"
+msgstr "Нет адреса, на который можно доставить письмо"
+
+#: templates/account/snippets/_suppression_warning.html
+msgid "Every address on this account has stopped accepting our email, so we cannot send you a password reset. Add another address below and verify it while you are still signed in."
+msgstr "Все адреса этого аккаунта перестали принимать наши письма. Мы не можем отправить ссылку для сброса пароля. Пока вы вошли в аккаунт, добавьте и подтвердите другой адрес ниже."
+
+#: templates/account/email/email_confirmation_message.txt
+#, python-format
+msgid "You're receiving this email because your email address was used to register an account on %(site_domain)s."
+msgstr "Вы получили это письмо, потому что ваш адрес указали при регистрации аккаунта на %(site_domain)s."
+
+#: templates/mfa/index.html
+msgid "Two-factor authentication is enabled"
+msgstr "Двухфакторная защита включена"
+
+#: templates/mfa/index.html
+msgid "Your account is protected with an additional layer of security."
+msgstr "Ваш аккаунт защищён дополнительным кодом при входе."
+
+#: templates/mfa/index.html
+msgid "TOTP-based authenticator"
+msgstr "Одноразовые коды из приложения"
+
+#: templates/mfa/index.html
+msgid "View Codes"
+msgstr "Посмотреть коды"
+
+#: templates/mfa/index.html templates/mfa/recovery_codes/index.html
+#: templates/mfa/recovery_codes/generate.html
+msgid "Generate New Codes"
+msgstr "Создать новые коды"
+
+#: templates/mfa/index.html templates/mfa/recovery_codes/generate.html
+msgid "Generate Recovery Codes"
+msgstr "Создать резервные коды"
+
+#: templates/mfa/index.html
+msgid "Two-factor authentication is not enabled"
+msgstr "Двухфакторная защита не включена"
+
+#: templates/mfa/index.html
+msgid "Add an extra layer of security to your account by requiring a verification code in addition to your password."
+msgstr "Защитите аккаунт: при входе потребуется код подтверждения в дополнение к паролю."
+
+#: templates/mfa/index.html
+msgid "How it works"
+msgstr "Как это работает"
+
+#: templates/mfa/index.html
+msgid "Install an authenticator app like Google Authenticator, Authy, or 1Password on your mobile device."
+msgstr "Установите на телефон приложение для одноразовых кодов, например Google Authenticator, Authy или 1Password."
+
+#: templates/mfa/index.html
+msgid "Scan the QR code we'll show you with your authenticator app."
+msgstr "Отсканируйте показанный QR-код в приложении для одноразовых кодов."
+
+#: templates/mfa/index.html
+msgid "Enter the 6-digit code from your app to verify the setup."
+msgstr "Введите шестизначный код из приложения, чтобы подтвердить настройку."
+
+#: templates/mfa/index.html
+msgid "Save your recovery codes in a safe place in case you lose access to your device."
+msgstr "Сохраните резервные коды в надёжном месте на случай потери доступа к устройству."
+
+#: templates/mfa/index.html
+msgid "Enable Two-Factor Authentication"
+msgstr "Включить двухфакторную защиту"
+
+#: templates/mfa/reauthenticate.html
+msgid "Confirm Your Identity"
+msgstr "Подтвердите свою личность"
+
+#: templates/mfa/reauthenticate.html
+msgid "Enter an authenticator code to continue."
+msgstr "Введите код из приложения, чтобы продолжить."
+
+#: templates/mfa/trust.html templates/mfa/authenticate.html
+msgid "Cancel and sign out"
+msgstr "Отменить и выйти"
+
+#: templates/mfa/authenticate.html
+msgid "Enter the code from your authenticator app to continue."
+msgstr "Введите код из приложения для одноразовых кодов, чтобы продолжить."
+
+#: templates/mfa/recovery_codes/index.html
+msgid "Save these codes in a safe place"
+msgstr "Сохраните эти коды в надёжном месте"
+
+#: templates/mfa/recovery_codes/index.html
+msgid "Each code can be used once to sign in if you lose access to your authenticator app."
+msgstr "Каждый код можно использовать один раз для входа, если вы потеряете доступ к приложению для одноразовых кодов."
+
+#: templates/mfa/recovery_codes/index.html
+msgid "Copy to Clipboard"
+msgstr "Скопировать"
+
+#: templates/mfa/recovery_codes/index.html
+msgid "Download Codes"
+msgstr "Скачать коды"
+
+#: templates/mfa/recovery_codes/generate.html
+msgid "This will invalidate your existing codes"
+msgstr "Прежние коды перестанут действовать"
+
+#: templates/mfa/recovery_codes/generate.html
+#, python-format
+msgid "You have %(count)s unused recovery code that will be invalidated. Make sure you no longer need them before proceeding."
+msgstr "Неиспользованных резервных кодов: %(count)s. Они перестанут действовать. Перед продолжением убедитесь, что они больше не нужны."
+
+#: templates/mfa/recovery_codes/generate.html
+msgid "You are about to generate a new set of recovery codes for your account. Are you sure?"
+msgstr "Вы создаёте новый набор резервных кодов для аккаунта. Продолжить?"
+
+#: templates/mfa/totp/activate_form.html
+msgid "Step 1: Scan QR Code"
+msgstr "Шаг 1. Отсканируйте QR-код"
+
+#: templates/mfa/totp/activate_form.html
+msgid "Open your authenticator app and scan this QR code:"
+msgstr "Откройте приложение для одноразовых кодов и отсканируйте QR-код:"
+
+#: templates/mfa/totp/activate_form.html
+msgid "QR Code"
+msgstr "QR-код"
+
+#: templates/mfa/totp/activate_form.html
+msgid "Can't scan the code?"
+msgstr "Не получается отсканировать код?"
+
+#: templates/mfa/totp/activate_form.html
+msgid "Enter this code manually in your authenticator app:"
+msgstr "Введите этот код вручную в приложении для одноразовых кодов:"
+
+#: templates/mfa/totp/activate_form.html
+msgid "Step 2: Verify Code"
+msgstr "Шаг 2. Подтвердите код"
+
+#: templates/mfa/totp/activate_form.html
+msgid "Enter the 6-digit code from your authenticator app to verify the setup:"
+msgstr "Введите шестизначный код из приложения, чтобы подтвердить настройку:"
+
+#: templates/mfa/totp/activate_form.html
+msgid "Cancel and go back"
+msgstr "Отменить и вернуться"
+
+#: templates/mfa/totp/deactivate_form.html
+msgid "You are about to deactivate authenticator app based two-factor authentication. Your account will be less secure without it."
+msgstr "Вы отключаете двухфакторную защиту через приложение. Без неё аккаунт будет менее защищён."
+
+#: templates/mfa/index.html
+#, python-format
+msgid "You have <span class=\"font-semibold text-fg\">%(unused_count)s</span> out of %(total_count)s recovery code remaining."
+msgid_plural "You have <span class=\"font-semibold text-fg\">%(unused_count)s</span> out of %(total_count)s recovery codes remaining."
+msgstr[0] "Осталось резервных кодов: <span class=\"font-semibold text-fg\">%(unused_count)s</span> из %(total_count)s."
+msgstr[1] "Осталось резервных кодов: <span class=\"font-semibold text-fg\">%(unused_count)s</span> из %(total_count)s."
+msgstr[2] "Осталось резервных кодов: <span class=\"font-semibold text-fg\">%(unused_count)s</span> из %(total_count)s."
+
+#: templates/mfa/recovery_codes/index.html
+#, python-format
+msgid "There is %(unused_count)s out of %(total_count)s recovery code available."
+msgid_plural "There are %(unused_count)s out of %(total_count)s recovery codes available."
+msgstr[0] "Доступно резервных кодов: %(unused_count)s из %(total_count)s."
+msgstr[1] "Доступно резервных кодов: %(unused_count)s из %(total_count)s."
+msgstr[2] "Доступно резервных кодов: %(unused_count)s из %(total_count)s."
+
+#: forms/contact.py:49
+msgid "Let's Talk"
+msgstr "Обсудить проект"
+
+#: forms/otp_forms.py:11 forms/otp_forms.py:48
+msgid "Verification Code"
+msgstr "Код подтверждения"
+
+#: forms/otp_forms.py:30
+msgid "Verify and Enable"
+msgstr "Подтвердить и включить"
+
+#: forms/otp_forms.py:39
+msgid "Verification code must be 6 digits."
+msgstr "Код подтверждения должен состоять из 6 цифр."
+
+#: forms/otp_forms.py:41
+msgid "Verification code must be exactly 6 digits."
+msgstr "Код подтверждения должен состоять ровно из 6 цифр."
+
+#: forms/otp_forms.py:70
+msgid "Verify"
+msgstr "Подтвердить"
+
+#: forms/otp_forms.py:87
+msgid "Confirm Password"
+msgstr "Подтвердите пароль"
+
+#: forms/otp_forms.py:92
+msgid "Enter your password to confirm disabling two-factor authentication."
+msgstr "Введите пароль, чтобы подтвердить отключение двухфакторной аутентификации."
+
+#: forms/otp_forms.py:112
+msgid "Disable Two-Factor Authentication"
+msgstr "Отключить двухфакторную аутентификацию"
+
+#: forms/otp_forms.py:129
+msgid "User not specified."
+msgstr "Пользователь не указан."
+
+#: forms/otp_forms.py:133
+msgid "Incorrect password."
+msgstr "Неверный пароль."
+
+#: models/contact.py:9
+msgid "1-10"
+msgstr "1-10"
+
+#: models/contact.py:10
+msgid "11-30"
+msgstr "11-30"
+
+#: models/contact.py:11
+msgid "31-50"
+msgstr "31-50"
+
+#: models/contact.py:14
+msgid "Engineering"
+msgstr "Разработка"
+
+#: models/contact.py:15
+msgid "Design"
+msgstr "Дизайн"
+
+#: models/contact.py:18
+msgid "$20,000+"
+msgstr "$20,000+"
+
+#: models/contact.py:19
+msgid "$50,000+"
+msgstr "$50,000+"
+
+#: models/contact.py:21
+msgid "Full Name"
+msgstr "Полное имя"
+
+#: models/contact.py:22
+msgid "Company Name"
+msgstr "Название компании"
+
+#: models/contact.py:23
+msgid "Work Email"
+msgstr "Рабочая эл. почта"
+
+#: models/contact.py:24
+msgid "Phone Number"
+msgstr "Номер телефона"
+
+#: models/contact.py:26
+msgid "Company Size"
+msgstr "Размер компании"
+
+#: models/contact.py:32
+msgid "Team"
+msgstr "Команда"
+
+#: models/contact.py:38
+msgid "Project Budget"
+msgstr "Бюджет проекта"
+
+#: models/contact.py:42
+msgid "Message"
+msgstr "Сообщение"
+
+#: models/contact.py:45
+msgid "Contact Submission"
+msgstr "Контактная заявка"
+
+#: models/contact.py:46
+msgid "Contact Submissions"
+msgstr "Контактные заявки"
+
+#: models/otp_profile.py:19
+msgid "Whether user has enabled OTP"
+msgstr "Включил ли пользователь OTP"
+
+#: models/otp_profile.py:23
+msgid "Whether backup codes have been generated"
+msgstr "Были ли созданы резервные коды"
+
+#: models/otp_profile.py:33
+msgid "User OTP Profile"
+msgstr "OTP-профиль пользователя"
+
+#: models/otp_profile.py:34
+msgid "User OTP Profiles"
+msgstr "OTP-профили пользователей"
+
+#: models/teams.py:117
+msgid "For temporary/contractor access"
+msgstr "Для временного доступа или доступа подрядчика"
+
+#: models/teams.py:121
+msgid "Team Membership"
+msgstr "Участие в команде"
+
+#: models/teams.py:122
+msgid "Team Memberships"
+msgstr "Участия в командах"
+
+#: models/teams.py:164
+msgid "Email address to send invitation to"
+msgstr "Адрес эл. почты для отправки приглашения"
+
+#: models/teams.py:174
+msgid "Set if user exists in system"
+msgstr "Установите, если пользователь существует в системе"
+
+#: models/teams.py:186
+msgid "Role to assign when invitation is accepted"
+msgstr "Роль, назначаемая после принятия приглашения"
+
+#: models/teams.py:194
+msgid "Secure token for invitation URL"
+msgstr "Безопасный токен для URL приглашения"
+
+#: models/teams.py:212
+msgid "Optional personal message from inviter"
+msgstr "Необязательное личное сообщение от приглашающего"
+
+#: models/teams.py:217
+msgid "Invitation expiration date"
+msgstr "Дата истечения срока приглашения"
+
+#: models/teams.py:221
+msgid "Team Invitation"
+msgstr "Приглашение в команду"
+
+#: models/teams.py:222
+msgid "Team Invitations"
+msgstr "Приглашения в команды"

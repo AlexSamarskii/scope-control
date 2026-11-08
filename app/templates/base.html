@@ -1,0 +1,90 @@
+{% load static og_tags i18n %}
+{% get_current_language as current_language %}
+<!doctype html>
+<html lang="{{ current_language }}" class="{% block extra_html_class %}{% endblock %}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block head_title %}{% endblock %}</title>
+    <link rel="shortcut icon" href="{% static "mainapp/scope-control.svg" %}" type="image/svg+xml">
+    <link rel="preload" href="{% static 'fonts/Onest-Variable.ttf' %}" as="font" type="font/ttf" crossorigin>
+
+    <!-- Theme initialization - Must run before styles load to prevent FOUC -->
+    <script>
+        (function() {
+            function getThemePreference() {
+                const stored = localStorage.getItem('theme-preference');
+                if (stored) return stored;
+                return 'auto'; // Default to auto mode
+            }
+
+            function getEffectiveTheme(preference) {
+                if (preference === 'auto') {
+                    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                }
+                return preference;
+            }
+
+            const preference = getThemePreference();
+            const effectiveTheme = getEffectiveTheme(preference);
+
+            if (effectiveTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+
+            // Store for later access
+            window.__themePreference = preference;
+        })();
+    </script>
+
+
+    {% if SPEEDPY_TOURS_ENABLED %}<link rel="stylesheet" href="{% static "vendors/driverjs/driver.css" %}"/>{% endif %}
+    <link rel="stylesheet" href="{% static "mainapp/styles.css" %}"/>
+    <!-- og tags -->
+    <meta property="og:title" content="{% if og_title %}{{ og_title }}{% else %}{{ SITE_TITLE }}{% endif %}">
+    <meta property="og:description"
+          content="{% if og_description %}{{ og_description }}{% else %}{{ TAGLINE }}{% endif %}">
+    {% if og_image %}
+        <meta property="og:image"
+              content="{{ og_image }}">
+    {% else %}
+        <meta property="og:image"
+              content="{{ SITE_URL }}{% og_image_url %}">
+    {% endif %}
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% if og_title %}{{ og_title }}{% else %}{{ SITE_TITLE }}{% endif %}">
+    <meta name="twitter:description"
+          content="{% if og_description %}{{ og_description }}{% else %}{{ TAGLINE }}{% endif %}">
+    {% if og_image %}
+        <meta name="twitter:image" content="{{ og_image }}">
+    {% else %}
+        <meta name="twitter:image" content="{{ SITE_URL }}{% og_image_url %}">
+    {% endif %}
+    <script defer src="{% static "vendors/alpine.min.js" %}"></script>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="{% block extra_body_class %}{% endblock %}">
+{% block body %}
+    {% block nav %}
+        {% include "components/nav.html" %}
+    {% endblock %}
+    {% block content %}
+    {% endblock content %}
+    {% include "components/footer.html" %}
+{% endblock body %}
+
+{% block extra_body %}
+{% endblock %}
+{% include "components/messages.html" %}
+<script src="{% static "mainapp/index.js" %}"></script>
+{% comment %}Copy-to-clipboard buttons with visible feedback — components/copy_button.html{% endcomment %}
+<script defer src="{% static "mainapp/copy-to-clipboard.js" %}"></script>
+<script defer src="{% static "mainapp/quality.js" %}"></script>
+{% if SPEEDPY_TOURS_ENABLED %}<script src="{% static "vendors/driverjs/driver.js.iife.js" %}"></script>
+{% include "partials/_tour.html" %}{% endif %}
+</body>
+</html>

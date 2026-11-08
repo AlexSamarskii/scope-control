@@ -1,0 +1,1062 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+[x-cloak] { display: none !important; }
+
+/* Terrazzo, adapted from Hallmark (MIT), revision
+ * 407fa689f4a276f2fd389208d271d0fef08f5058. See NOTICE.md.
+ * RGB equivalents of the upstream OKLCH palette retain Tailwind alpha support.
+ * Onest covers both Russian and Latin text; all font requests stay local. */
+@layer base {
+  @font-face {
+    font-family: "Onest";
+    src: url("../fonts/Onest-Variable.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+  }
+
+  :root {
+    color-scheme: light;
+    --color-primary-main: 177 68 32;
+    --color-primary-light: 199 86 49;
+    --color-primary-dark: 136 46 14;
+    --color-primary-contrast: 254 253 251;
+    --color-secondary-main: 92 87 83;
+    --color-secondary-light: 115 108 101;
+    --color-secondary-dark: 61 56 51;
+    --color-secondary-contrast: 254 253 251;
+    --color-success-main: 35 108 70;
+    --color-success-light: 57 131 89;
+    --color-success-dark: 22 80 49;
+    --color-success-contrast: 254 253 251;
+    --color-info-main: 54 95 121;
+    --color-info-light: 73 116 143;
+    --color-info-dark: 34 70 93;
+    --color-info-contrast: 254 253 251;
+    --color-warning-main: 126 87 17;
+    --color-warning-light: 150 108 32;
+    --color-warning-dark: 94 63 10;
+    --color-warning-contrast: 254 253 251;
+    --color-error-main: 175 46 37;
+    --color-error-light: 196 64 54;
+    --color-error-dark: 135 31 24;
+    --color-error-contrast: 254 253 251;
+    --color-background-default: 245 241 235;
+    --color-background-paper: 254 253 251;
+    --color-text-primary: 15 13 11;
+    --color-text-secondary: 92 87 83;
+    --color-divider: 197 192 184;
+    --color-control: 15 13 11;
+    --color-control-hover: 41 38 36;
+    --color-control-contrast: 245 241 235;
+    --color-offset: 219 213 204;
+    --color-band: 233 228 220;
+  }
+
+  .dark {
+    color-scheme: dark;
+    --color-primary-main: 223 119 82;
+    --color-primary-light: 243 149 113;
+    --color-primary-dark: 196 93 58;
+    --color-primary-contrast: 15 13 11;
+    --color-secondary-main: 189 181 170;
+    --color-secondary-light: 219 213 204;
+    --color-secondary-dark: 155 145 134;
+    --color-secondary-contrast: 15 13 11;
+    --color-success-main: 122 189 145;
+    --color-success-light: 155 213 174;
+    --color-success-dark: 91 158 114;
+    --color-success-contrast: 15 13 11;
+    --color-info-main: 143 185 207;
+    --color-info-light: 176 211 229;
+    --color-info-dark: 112 153 177;
+    --color-info-contrast: 15 13 11;
+    --color-warning-main: 221 180 98;
+    --color-warning-light: 242 206 134;
+    --color-warning-dark: 190 147 67;
+    --color-warning-contrast: 15 13 11;
+    --color-error-main: 239 144 129;
+    --color-error-light: 251 179 165;
+    --color-error-dark: 210 111 96;
+    --color-error-contrast: 15 13 11;
+    --color-background-default: 18 16 14;
+    --color-background-paper: 30 27 24;
+    --color-text-primary: 245 241 234;
+    --color-text-secondary: 189 181 170;
+    --color-divider: 91 84 76;
+    --color-control: 245 241 234;
+    --color-control-hover: 219 213 204;
+    --color-control-contrast: 18 16 14;
+    --color-offset: 65 58 51;
+    --color-band: 41 36 31;
+  }
+
+  ::selection { background: rgb(var(--color-primary-main) / 0.22); }
+  :focus-visible { outline: 2px solid rgb(var(--color-primary-main)); outline-offset: 3px; }
+  body { line-height: 1.55; }
+}
+
+@layer components{
+  /* ==========================================================================
+   * BUTTONS (SpeedpyUI — MUI composition model)
+   * Use: <button class="btn btn-contained btn-primary btn-md">
+   * Variants: .btn-contained | .btn-outlined | .btn-text
+   * Colors:   .btn-primary | .btn-secondary | .btn-success | .btn-info | .btn-warning | .btn-error | .btn-inherit
+   * Sizes:    .btn-sm | .btn-md (default) | .btn-lg
+   * ========================================================================== */
+
+  .btn {
+    /* Default size is medium. .btn-sm / .btn-lg override. */
+    @apply inline-flex items-center justify-center gap-2 text-center
+           font-medium leading-[1.5] rounded-lg cursor-pointer select-none
+           transition-colors duration-150 ease-in-out
+           border border-transparent
+           text-[0.875rem] px-5 py-2
+           focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
+           focus-visible:ring-offset-background
+           disabled:opacity-50 disabled:pointer-events-none
+           hover:no-underline;
+    text-transform: none;
+  }
+
+  /* Sizes */
+  .btn-sm { @apply text-[0.8125rem] px-4 py-[0.375rem]; }           /* 6px 16px */
+  .btn-md { @apply text-[0.875rem]  px-5 py-2; }                    /* 8px 20px */
+  .btn-lg { @apply text-[0.9375rem] px-6 py-[0.6875rem]; }          /* 11px 24px */
+  /* Text-variant sizes use tighter horizontal padding */
+  .btn-text.btn-sm { @apply px-3 py-[0.4375rem]; }                  /* 7px 12px */
+  .btn-text.btn-md { @apply px-4 py-[0.5625rem]; }                  /* 9px 16px */
+  .btn-text.btn-lg { @apply px-4 py-3; }                            /* 12px 16px */
+
+  /* ----- Variant: contained (solid fill) ----- */
+  .btn-contained { @apply shadow-none; }
+  /* Ink controls use a separate palette from the rust signal. Semantic solid
+     buttons lighten on dark-theme hover to preserve contrast with dark text. */
+  .btn-contained.btn-primary {
+    background: rgb(var(--color-control));
+    color: rgb(var(--color-control-contrast));
+    border-color: rgb(var(--color-control));
+    @apply focus-visible:ring-primary;
+  }
+  .btn-contained.btn-primary:hover { background: rgb(var(--color-control-hover)); }
+  .btn-contained.btn-secondary { @apply bg-secondary text-secondary-contrast hover:bg-secondary-dark dark:hover:bg-secondary-light focus-visible:ring-secondary; }
+  .btn-contained.btn-success   { @apply bg-success   text-success-contrast   hover:bg-success-dark dark:hover:bg-success-light   focus-visible:ring-success; }
+  .btn-contained.btn-info      { @apply bg-info      text-info-contrast      hover:bg-info-dark dark:hover:bg-info-light      focus-visible:ring-info; }
+  .btn-contained.btn-warning   { @apply bg-warning   text-warning-contrast   hover:bg-warning-dark dark:hover:bg-warning-light   focus-visible:ring-warning; }
+  .btn-contained.btn-error     { @apply bg-error     text-error-contrast     hover:bg-error-dark dark:hover:bg-error-light     focus-visible:ring-error; }
+  .btn-contained.btn-inherit   { @apply bg-neutral-800 text-white hover:bg-neutral-900 focus-visible:ring-neutral-800
+                                        dark:bg-neutral-200 dark:text-neutral-900 dark:hover:bg-neutral-100; }
+
+  /* ----- Variant: outlined (1px border, transparent bg) ----- */
+  .btn-outlined { @apply bg-transparent; }
+  .btn-outlined.btn-primary { @apply border-fg text-fg hover:bg-primary/5 hover:border-primary focus-visible:ring-primary; }
+  .btn-outlined.btn-secondary { @apply border-secondary/50 text-secondary hover:bg-secondary/5  hover:border-secondary focus-visible:ring-secondary; }
+  .btn-outlined.btn-success   { @apply border-success/50   text-success   hover:bg-success/5    hover:border-success   focus-visible:ring-success; }
+  .btn-outlined.btn-info      { @apply border-info/50      text-info      hover:bg-info/5       hover:border-info      focus-visible:ring-info; }
+  .btn-outlined.btn-warning   { @apply border-warning/50   text-warning   hover:bg-warning/5    hover:border-warning   focus-visible:ring-warning; }
+  .btn-outlined.btn-error     { @apply border-error/50     text-error     hover:bg-error/5      hover:border-error     focus-visible:ring-error; }
+  .btn-outlined.btn-inherit   { @apply border-neutral-500/50 text-fg hover:bg-neutral-500/5 hover:border-neutral-500 focus-visible:ring-neutral-500; }
+
+  /* ----- Variant: text (transparent, hover bg subtle) ----- */
+  /* Text-variant default size uses tighter horizontal padding (9px 16px). */
+  .btn-text { @apply bg-transparent border-transparent px-4 py-[0.5625rem]; }
+  .btn-text.btn-primary   { @apply text-fg hover:bg-primary/5 focus-visible:ring-primary; }
+  .btn-text.btn-secondary { @apply text-secondary hover:bg-secondary/5 focus-visible:ring-secondary; }
+  .btn-text.btn-success   { @apply text-success   hover:bg-success/5   focus-visible:ring-success; }
+  .btn-text.btn-info      { @apply text-info      hover:bg-info/5      focus-visible:ring-info; }
+  .btn-text.btn-warning   { @apply text-warning   hover:bg-warning/5   focus-visible:ring-warning; }
+  .btn-text.btn-error     { @apply text-error     hover:bg-error/5     focus-visible:ring-error; }
+  .btn-text.btn-inherit   { @apply text-fg hover:bg-neutral-500/5 focus-visible:ring-neutral-500; }
+
+  /* ==========================================================================
+   * FORM INPUTS (SpeedpyUI — MUI outlined variant translated to Tailwind)
+   * ========================================================================== */
+
+  .form-field { @apply flex flex-col mb-4; }
+
+  .input-label {
+    @apply block mb-1 text-sm font-medium text-fg;
+  }
+
+  /* Text/number/email/url/password/date input — outlined variant */
+  .input-outlined {
+    @apply block w-full rounded-lg
+           border border-fg-secondary bg-background-paper
+           px-3 py-[0.6875rem]
+           text-[0.9375rem] font-normal text-fg leading-[1.4375rem]
+           placeholder:text-fg-secondary placeholder:font-normal placeholder:opacity-100
+           transition-colors duration-150
+           focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary
+           disabled:opacity-60 disabled:cursor-not-allowed;
+  }
+  .input-outlined-sm { @apply px-3 py-[0.5rem] text-sm; }
+  .input-outlined-lg { @apply px-3 py-[0.875rem] text-base; }
+
+  .textarea-outlined {
+    @apply block w-full rounded-lg
+           border border-fg-secondary bg-background-paper
+           px-3 py-2
+           text-[0.9375rem] font-normal text-fg leading-[1.5]
+           placeholder:text-fg-secondary placeholder:font-normal placeholder:opacity-100
+           transition-colors duration-150 resize-y
+           focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary
+           disabled:opacity-60;
+  }
+
+  .select-outlined {
+    @apply block w-full rounded-lg
+           border border-fg-secondary bg-background-paper
+           pl-3 pr-10 py-[0.6875rem]
+           text-[0.9375rem] font-normal text-fg leading-[1.4375rem]
+           transition-colors duration-150
+           focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary
+           disabled:opacity-60;
+  }
+
+  /* Checkbox — primary color, rounded */
+  .checkbox {
+    @apply h-[18px] w-[18px] rounded
+           border-2 border-neutral-400 bg-transparent
+           text-primary
+           checked:bg-primary checked:border-primary
+           focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background
+           disabled:opacity-50 cursor-pointer
+           dark:border-neutral-500;
+  }
+
+  /* Radio — primary color, circular */
+  .radio {
+    @apply h-[18px] w-[18px]
+           border-2 border-neutral-400 bg-transparent
+           text-primary
+           checked:bg-primary checked:border-primary
+           focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background
+           disabled:opacity-50 cursor-pointer
+           dark:border-neutral-500;
+  }
+
+  /* Switch — track + thumb */
+  .switch {
+    @apply relative inline-block w-[34px] h-[14px] align-middle select-none;
+  }
+  .switch input[type="checkbox"] {
+    @apply sr-only;
+  }
+  .switch-track {
+    @apply absolute cursor-pointer inset-0 rounded-full
+           bg-neutral-400 opacity-100
+           transition-colors duration-200
+           peer-checked:bg-primary/50
+           dark:bg-neutral-500;
+  }
+  .switch-thumb {
+    @apply absolute -top-[3px] -left-[1px]
+           h-5 w-5 rounded-full
+           bg-neutral-500 shadow-speedpyui-1
+           transition-transform duration-200
+           peer-checked:translate-x-[18px] peer-checked:bg-primary
+           dark:bg-neutral-700;
+  }
+
+  /* Helper text & error state */
+  .input-helper {
+    @apply mt-1 text-xs text-fg-secondary;
+  }
+  .input-error {
+    @apply border-error focus:border-error focus:ring-error;
+  }
+  .input-error-text {
+    @apply mt-1 text-xs text-error;
+  }
+
+  /* Input group (prefix/suffix) */
+  .input-group {
+    @apply flex flex-row items-stretch w-full;
+  }
+  /* Rounding is NOT baked in here: an addon can sit before or after the input,
+     and a prepend-shaped radius on an append addon looks broken. Pair with
+     `input-group-text-prepend` or `input-group-text-append`. */
+  .input-group-text {
+    @apply flex items-center px-3 text-sm text-fg-secondary
+           bg-neutral-100 border border-divider
+           dark:bg-neutral-800;
+  }
+  /* Side-specific addon shapes. The addon and the input each drop the radius
+     and border on the edge where they meet, so the pair reads as one control. */
+  .input-group-text-prepend { @apply rounded-l-lg border-r-0; }
+  .input-group-text-append  { @apply rounded-r-lg border-l-0; }
+  .input-group > .input-outlined { @apply flex-1; }
+  .input-group-text-prepend + .input-outlined { @apply rounded-l-none; }
+  .input-outlined:has(+ .input-group-text-append) { @apply rounded-r-none; }
+
+  /* ==========================================================================
+   * LAYOUT, TYPOGRAPHY, AND CONTENT PRIMITIVES
+   * Bootstrap-like class names backed by SpeedpyUI tokens.
+   * ========================================================================== */
+
+  .page-container {
+    @apply mx-auto w-full max-w-6xl px-6 py-20;
+  }
+  .page-header {
+    @apply mb-12 mx-auto max-w-2xl text-center;
+  }
+  .page-header-actions {
+    @apply mb-8 flex flex-col justify-between gap-5 border-b-2 border-fg pb-6 text-left sm:flex-row sm:items-start;
+  }
+  .page-header-main {
+    @apply max-w-3xl;
+  }
+  .page-header-buttons {
+    @apply flex shrink-0 flex-wrap justify-start gap-3 sm:justify-end;
+  }
+  .section {
+    @apply overflow-x-hidden bg-background;
+  }
+  .section-paper {
+    @apply overflow-x-hidden bg-background-paper border-y border-divider;
+  }
+  .section-header {
+    @apply mb-12 mx-auto max-w-2xl text-center;
+  }
+  .eyebrow {
+    @apply mb-3 text-sm font-medium text-fg-secondary;
+  }
+  .lead {
+    @apply text-base leading-7 text-fg-secondary sm:text-lg;
+  }
+  .speedpyui-preview pre {
+    @apply max-w-full whitespace-pre-wrap break-words;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  .speedpyui-preview pre code {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  .media-icon {
+    @apply flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary;
+  }
+  .avatar-sm {
+    @apply flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-contrast;
+  }
+  .avatar-xs {
+    @apply flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-contrast;
+  }
+  .list-group {
+    @apply overflow-hidden rounded-lg border border-divider divide-y divide-divider;
+  }
+  .list-group-item {
+    @apply block w-full p-4 text-left text-fg hover:no-underline;
+  }
+  .pagination {
+    @apply flex flex-col gap-4 border-t border-divider px-6 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-8;
+  }
+  .pagination-summary {
+    @apply text-sm font-medium text-fg-secondary;
+  }
+  .pagination-list {
+    @apply inline-flex overflow-hidden rounded-lg border border-divider bg-background-paper;
+  }
+  .pagination-link {
+    @apply flex h-10 min-w-10 items-center justify-center border-r border-divider px-3 text-sm font-semibold text-fg-secondary transition-colors last:border-r-0 hover:bg-primary/5 hover:text-primary hover:no-underline;
+  }
+  .pagination-link-active {
+    @apply bg-primary text-primary-contrast hover:bg-primary hover:text-primary-contrast;
+  }
+  .pagination-link-disabled {
+    @apply text-fg-secondary/40 pointer-events-none;
+  }
+  .pagination-ellipsis {
+    @apply flex h-10 min-w-10 items-center justify-center border-r border-divider px-3 text-sm font-semibold text-fg-secondary last:border-r-0;
+  }
+  .account-shell {
+    @apply mx-auto max-w-7xl pt-5 lg:flex lg:gap-x-16 lg:px-8;
+  }
+  .account-nav {
+    @apply flex gap-x-3 gap-y-1 whitespace-nowrap lg:flex-col;
+  }
+  .account-nav-link {
+    @apply block rounded-lg p-3 text-fg transition-colors hover:bg-primary/5 hover:text-primary;
+  }
+  .account-nav-link-active {
+    @apply bg-primary/10 text-primary;
+  }
+  .top-nav {
+    @apply sticky top-0 z-50 border-b border-divider bg-background-paper text-fg-secondary shadow-none;
+  }
+  .top-nav-inner {
+    @apply mx-auto flex min-h-16 max-w-screen-xl flex-wrap items-center justify-between px-4 lg:px-6;
+  }
+  .top-nav-brand {
+    @apply flex items-center text-fg hover:text-fg hover:no-underline;
+  }
+  .top-nav-logo {
+    @apply mr-3 h-6 max-w-full align-middle sm:h-8;
+  }
+  .top-nav-title {
+    @apply self-center whitespace-nowrap text-xl font-semibold leading-7 text-fg;
+  }
+  .top-nav-actions {
+    @apply flex items-center lg:order-2;
+  }
+  .top-nav-menu {
+    @apply hidden w-full basis-full flex-col items-stretch justify-start lg:order-1 lg:flex lg:w-auto lg:basis-auto lg:flex-row lg:items-center lg:justify-between;
+  }
+  .top-nav-list {
+    @apply m-0 flex w-full list-none flex-col p-0 font-semibold lg:w-auto lg:flex-row lg:items-center;
+  }
+  .top-nav-item {
+    @apply w-full text-left lg:ml-8 lg:w-auto;
+  }
+  .top-nav-link {
+    @apply block w-full border-b border-divider px-3 py-2 text-fg-secondary transition-colors hover:text-primary hover:no-underline lg:w-auto lg:border-0 lg:p-0;
+  }
+  .top-nav-icon-button {
+    @apply inline-flex items-center justify-center rounded-lg p-2 text-fg-secondary transition-colors hover:bg-primary/5 hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary/40;
+  }
+  .top-nav-user-button {
+    @apply flex items-center gap-x-1 rounded-full p-0.5 transition-colors hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-primary/40;
+  }
+  .top-nav-auth-link {
+    @apply inline-flex items-center rounded-lg px-4 py-2 text-sm font-semibold leading-5 text-fg-secondary transition-colors hover:bg-primary/5 hover:text-primary hover:no-underline focus:outline-none focus:ring-2 focus:ring-primary/40;
+  }
+  .top-nav-dropdown {
+    @apply absolute right-0 z-50 my-4 w-56 overflow-hidden rounded-lg border border-divider bg-background-paper text-base shadow-speedpyui-16;
+  }
+  .top-nav-dropdown-header {
+    @apply border-b border-divider px-4 py-3;
+  }
+  .top-nav-dropdown-link {
+    @apply block px-4 py-2 text-sm font-medium text-fg-secondary transition-colors hover:bg-primary/5 hover:text-primary;
+  }
+  .sidebar {
+    @apply flex h-full flex-col overflow-y-auto bg-background px-5 py-7;
+  }
+  .sidebar-brand {
+    @apply mb-10 flex items-center gap-3;
+  }
+  .sidebar-brand-text {
+    @apply text-xl font-bold tracking-tight text-fg;
+  }
+  .sidebar-section-label {
+    @apply mb-3 px-3 text-xs font-medium text-fg-secondary;
+  }
+  .sidebar-nav {
+    @apply space-y-1;
+  }
+  .sidebar-link {
+    @apply flex min-h-11 items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium text-fg transition-colors hover:bg-primary/10 hover:text-primary;
+  }
+  .sidebar-link-active {
+    background: rgb(var(--color-control));
+    color: rgb(var(--color-control-contrast));
+  }
+  .sidebar-link-active:hover {
+    background: rgb(var(--color-control-hover));
+    color: rgb(var(--color-control-contrast));
+  }
+  .sidebar-link-icon {
+    @apply h-5 w-5 shrink-0;
+  }
+  .sidebar-divider {
+    @apply border-t border-divider pt-4;
+  }
+  .sidebar-select {
+    @apply flex w-full items-center justify-between gap-2 rounded-lg border border-divider bg-background-paper px-3 py-3 text-left transition-colors hover:border-primary;
+  }
+  .sidebar-dropdown {
+    @apply absolute z-50 w-full overflow-hidden rounded-lg border border-divider bg-background-paper shadow-speedpyui-16;
+  }
+  .sidebar-dropdown-item {
+    @apply flex items-center justify-between px-4 py-2 text-sm transition-colors hover:bg-primary/5;
+  }
+  .sidebar-dropdown-item-active {
+    @apply bg-primary/10;
+  }
+
+  /* ==========================================================================
+   * LEGACY / PHASE 2+ COMPONENTS (preserved verbatim from pre-SpeedpyUI input.css
+   * for cards, alerts, badges, tables, modals, nav, dropdowns, tabs, accordion,
+   * tooltip, progress, blockquotes, display headings, layout grid, prose. These
+   * still reference old tokens in places — they will be rewritten in later
+   * phases. Known-broken references call out "primary-100 / primary-700" style
+   * utilities which still work because we provide a numbered primary scale.)
+   * ========================================================================== */
+
+  html,
+  body {
+    @apply overflow-x-hidden font-sans bg-background text-fg antialiased;
+  }
+  .col {
+    @apply relative w-full px-5;
+  }
+  .row {
+    @apply flex flex-wrap flex-row -mx-5;
+  }
+  .tab {
+    @apply px-4 py-2 border-b-2 hover:text-primary ring-0 focus:outline-none;
+  }
+  .card {
+    @apply relative flex flex-col overflow-hidden rounded-lg border-2 border-fg bg-background-paper text-fg shadow-speedpyui-16;
+  }
+  .card-body {
+    @apply flex-grow p-6 sm:p-8;
+  }
+  .card-footer {
+    @apply border-t border-divider px-6 py-4 sm:px-8;
+  }
+  .card-header {
+    @apply border-b border-divider px-6 py-5 sm:px-8;
+  }
+  .alert {
+    @apply flex rounded-lg border px-4 py-3 text-sm transition-opacity duration-300;
+  }
+  .alert-info      { @apply border-info/30 bg-info/10 text-fg; }
+  .alert-light     { @apply border-divider bg-background-paper text-fg; }
+  .alert-danger,
+  .alert-error     { @apply border-error/30 bg-error/10 text-fg; }
+  .alert-neutral   { @apply border-divider bg-background text-fg; }
+  .alert-primary   { @apply border-primary/30 bg-primary/10 text-fg; }
+  .alert-success   { @apply border-success/30 bg-success/10 text-fg; }
+  .alert-warning   { @apply border-warning/30 bg-warning/10 text-fg; }
+  .alert-tertiary  { @apply border-secondary/30 bg-secondary/10 text-fg; }
+  .alert-secondary { @apply border-secondary/30 bg-secondary/10 text-fg; }
+  .badge {
+    @apply inline-flex items-center gap-2 rounded px-2 py-0.5 text-xs font-semibold;
+  }
+  .badge-lg {
+    @apply inline-flex items-center gap-2 rounded px-3 py-1 text-sm font-semibold;
+  }
+  .badge-primary,
+  .badge-light-primary { @apply bg-primary/10 text-primary; }
+  .badge-success,
+  .badge-light-success { @apply bg-success/10 text-success; }
+  .badge-warning,
+  .badge-light-warning { @apply bg-warning/10 text-warning; }
+  .badge-danger,
+  .badge-error,
+  .badge-light-danger  { @apply bg-error/10 text-error; }
+  .badge-info,
+  .badge-light-info    { @apply bg-info/10 text-info; }
+  .badge-secondary     { @apply bg-secondary/10 text-secondary; }
+  .fa-ul { @apply ml-6; }
+  .modal {
+    @apply fixed left-0 top-0 w-screen h-screen overflow-auto z-50 transition-opacity duration-500 opacity-0;
+  }
+  .modal-bg {
+    @apply fixed w-screen h-screen left-0 top-0 z-30 pt-16 bg-gray-900 overflow-auto transition-opacity duration-500 opacity-50;
+  }
+  .modal-lg { @apply max-w-screen-md; }
+  .modal-sm { @apply max-w-sm; }
+  .modal-xl { @apply max-w-screen-xl; }
+  .modal-content {
+    @apply relative m-auto mt-16 bg-gray-100 shadow-lg z-40 max-w-md;
+  }
+  .table { @apply min-w-full divide-y divide-divider text-fg; }
+  .table>tbody { @apply divide-y divide-divider; }
+  .table>tbody>tr { @apply bg-background-paper; }
+  .table-hover>tbody>tr { @apply hover:bg-primary/5; }
+  .table-sm>tbody>tr>td { @apply py-1; }
+  .table-sm>thead>tr>th { @apply py-1; }
+  .table-striped>tbody>tr { @apply even:bg-background; }
+  .table-striped>thead>tr { @apply border-b border-divider bg-background; }
+  .table>thead { @apply bg-background; }
+  .table>tbody>tr>td { @apply px-4 py-3 text-sm text-fg; }
+  .table>thead>tr>th { @apply px-4 py-3 text-left text-xs font-semibold uppercase text-fg-secondary; }
+  .navbar { @apply z-20 py-3 relative; }
+  .navbar-btn { @apply w-6 mr-5 cursor-pointer select-none rounded md:hidden; }
+  .navbar-col { @apply flex flex-col items-center mt-3 space-y-4 md:flex-row md:space-x-4 md:space-y-0 md:mt-0; }
+  .navbar-row { @apply hidden w-screen items-center md:flex md:flex-grow md:justify-between md:w-auto md:ml-4 transition-all transform duration-300 opacity-0 h-0 md:h-auto md:opacity-100 !md:h-auto md:overflow-visible; }
+  .navbar-row.show { @apply opacity-100; }
+  .navbar-brand { @apply flex flex-row items-center space-x-3 ml-5 md:ml-0 text-primary font-bold text-xl; }
+  .navbar-dark .navbar-btn { @apply focus:ring-white; }
+  .navbar > .container-fluid, .navbar > .container { @apply flex flex-wrap justify-between md:flex-nowrap px-3 md:px-5; }
+  .dropdown-item {
+    /* `focus:shadow-outline` was here: a Tailwind v1 utility removed in v2, so
+       this rule broke the whole CSS build the moment anything referenced
+       `dropdown-item`. It stayed dormant only because no template used the
+       class, and unused component rules are tree-shaken before @apply runs. */
+    @apply bg-transparent py-1.5 px-4 hover:text-primary-800 focus:text-primary-800 hover:bg-primary-100 focus:bg-primary-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40;
+  }
+  .dropdown-menu {
+    @apply absolute hidden transition duration-200 opacity-0 w-max py-2 bg-white border border-gray-300 rounded mt-2 min-w-[160px] z-[1000];
+  }
+  .dropdown-menu.show { @apply opacity-100 block; }
+  .tab-underline { @apply px-3 py-2 text-neutral hover:text-primary focus:outline-none; }
+  .tab-list { @apply flex flex-wrap gap-x-2 mb-2 select-none; }
+  .tab-list-underline { @apply border-b-2 border-gray-300; }
+  .tab-content { @apply py-2; }
+  .tab[aria-selected="true"] { @apply border-primary text-primary; }
+  .tab-underline[aria-selected="true"] { @apply -mb-1 border-0 border-b-2 border-primary text-primary; }
+  .accordion-body { @apply py-3; }
+  /* bg-background-paper, not bg-white: this was a light-only surface, so an
+     accordion in dark mode was a white panel on a dark page. */
+  .accordion-item { @apply flex flex-col bg-background-paper rounded-lg p-4 mb-3; }
+  .accordion-header {
+    @apply w-full flex items-center text-xl font-semibold text-left transition-all duration-300 cursor-pointer hover:text-primary-700 after:w-5 after:h-5 after:flex-shrink-0 after:ml-auto after:content-[''] after:bg-arrow-down after:transition after:duration-300;
+  }
+  .accordion-header[aria-expanded="true"] { @apply text-primary hover:text-primary-700 after:rotate-180; }
+  .accordion-collapse { @apply transition-all duration-300; }
+  .progress { @apply flex w-full overflow-hidden bg-gray-200 rounded-full h-2.5; }
+  .progress-bar { @apply h-full; }
+  .progress-lg { @apply h-4; }
+  .progress-sm { @apply h-1.5; }
+  .progress-xl { @apply h-6; }
+  .tooltip {
+    @apply hidden absolute invisible top-0 left-0 bg-neutral-800 text-white font-normal py-2 px-3 rounded-lg shadow-sm text-sm pointer-events-none opacity-0 transition-opacity duration-300;
+  }
+  .tooltip-arrow { @apply absolute bg-neutral-800 w-2 h-2 rotate-45; }
+  [data-popper-arrow]::before {
+    @apply content-[''] rotate-[45deg] absolute h-4 w-4 bg-white border-l border-t border-gray-300 rounded-tl;
+  }
+  [data-popper-placement^='top']    > [data-popper-arrow] { @apply -bottom-2; }
+  [data-popper-placement^='left']   > [data-popper-arrow] { @apply -right-2; }
+  [data-popper-placement^='right']  > [data-popper-arrow] { @apply -left-2; }
+  [data-popper-placement^='bottom'] > [data-popper-arrow] { @apply -top-2; }
+  .container { @apply w-full max-w-full lg:max-w-[calc(min(100vw-60px,1220px))] mx-auto px-5; }
+  .container-fluid { @apply w-full max-w-full mx-auto px-5; }
+  h1, .h1 { @apply text-3xl font-bold leading-tight tracking-tight text-fg sm:text-4xl lg:text-5xl; }
+  h2, .h2 { @apply text-2xl font-bold leading-tight tracking-tight text-fg lg:text-3xl; }
+  h3, .h3 { @apply text-xl font-bold leading-snug tracking-tight text-fg; }
+  h4, .h4 { @apply text-lg font-semibold leading-snug text-fg; }
+  h5, .h5 { @apply text-base font-semibold leading-snug text-fg; }
+  h1, h2, h3, h4, h5, p { @apply mb-3; }
+  .display-1 { @apply text-[calc(1.625rem+4.5vw)] lg:text-[5rem] leading-[1.2] font-light; }
+  .display-2 { @apply text-[calc(1.575rem+3.9vw)] lg:text-[4.5rem] leading-[1.2] font-light; }
+  .display-3 { @apply text-[calc(1.525rem+3.3vw)] lg:text-[4rem] leading-[1.2] font-light; }
+  .display-4 { @apply text-[calc(1.475rem+2.7vw)] lg:text-[3.5rem] leading-[1.2] font-light; }
+  .display-5 { @apply text-[calc(1.425rem+2.1vw)] lg:text-[3rem] leading-[1.2] font-light; }
+  .display-6 { @apply text-[calc(1.375rem+1.6vw)] lg:text-[2.5rem] leading-[1.2] font-light; }
+  .blockquote { @apply text-xl italic font-semibold text-neutral-900; }
+  .blockquote-dark      { @apply p-4 border-l-[4px] border-gray-800; }
+  .blockquote-info      { @apply p-4 bg-info/10 border-l-[4px] border-info-light; }
+  .blockquote-black     { @apply p-4 border-l-[4px] border-black; }
+  .blockquote-light     { @apply p-4 bg-gray-50 border-l-[4px] border-gray-100; }
+  .blockquote-muted     { @apply p-4 border-l-[4px] border-gray-700; }
+  .blockquote-white     { @apply p-4 border-l-[4px] border-white; }
+  .blockquote-danger    { @apply p-4 bg-red-50 border-l-[4px] border-red-600; }
+  .blockquote-neutral   { @apply p-4 bg-neutral-50 border-l-[4px] border-neutral-600; }
+  .blockquote-primary   { @apply p-4 bg-primary-50 border-l-[4px] border-primary-600; }
+  .blockquote-success   { @apply p-4 bg-green-50 border-l-[4px] border-green-500; }
+  .blockquote-warning   { @apply p-4 bg-yellow-50 border-l-[4px] border-yellow-500; }
+  .blockquote-tertiary  { @apply p-4 bg-purple-50 border-l-[4px] border-purple-600; }
+  .blockquote-secondary { @apply p-4 bg-secondary/10 border-l-[4px] border-secondary-dark; }
+  .prose a      { @apply text-primary hover:text-primary-700; }
+  .prose > blockquote { @apply border-l-4 border-gray-600 my-3 py-3 pl-4 text-xl -ml-5; }
+  .prose h4     { @apply text-lg; }
+  .prose ul ul  { @apply list-disc; }
+  .prose ul ul ul { @apply list-[square]; }
+
+  /* ==========================================================================
+   * SPEEDPY UI COMPONENTS: low-JS primitives
+   * ========================================================================== */
+
+  .divider {
+    @apply my-6 h-px w-full border-0 bg-divider;
+  }
+  .divider-vertical {
+    @apply mx-4 h-10 w-px shrink-0 self-stretch border-0 bg-divider;
+  }
+  .divider-text {
+    @apply my-6 flex items-center gap-3 text-xs font-semibold uppercase text-fg-secondary;
+  }
+  .divider-text::before,
+  .divider-text::after {
+    @apply h-px flex-1 bg-divider content-[''];
+  }
+
+  .chip {
+    @apply inline-flex min-h-8 max-w-full items-center gap-1.5 rounded-full border border-transparent bg-background text-sm font-semibold text-fg px-3 py-1 leading-5;
+  }
+  .chip-sm {
+    @apply min-h-7 px-2.5 py-0.5 text-xs;
+  }
+  .chip-primary { @apply bg-primary/10 text-primary; }
+  .chip-secondary { @apply bg-secondary/10 text-secondary; }
+  .chip-success { @apply bg-success/10 text-success; }
+  .chip-info { @apply bg-info/10 text-info; }
+  .chip-warning { @apply bg-warning/10 text-warning; }
+  .chip-error { @apply bg-error/10 text-error; }
+  .chip-outlined {
+    @apply border-divider bg-transparent text-fg;
+  }
+  .chip-outlined.chip-primary { @apply border-primary/50 text-primary; }
+  .chip-outlined.chip-secondary { @apply border-secondary/50 text-secondary; }
+  .chip-outlined.chip-success { @apply border-success/50 text-success; }
+  .chip-outlined.chip-info { @apply border-info/50 text-info; }
+  .chip-outlined.chip-warning { @apply border-warning/50 text-warning; }
+  .chip-outlined.chip-error { @apply border-error/50 text-error; }
+  .chip-avatar {
+    @apply -ml-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-background-paper text-xs font-semibold text-fg;
+  }
+  .chip-remove {
+    @apply -mr-1 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-current opacity-70 transition hover:bg-neutral-500/10 hover:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40;
+  }
+
+  .paper {
+    @apply rounded-lg bg-background-paper text-fg;
+  }
+  .paper-outlined {
+    @apply border border-divider;
+  }
+  .paper-padded {
+    @apply p-6;
+  }
+  .paper-elevation-0 { @apply shadow-none; }
+  .paper-elevation-1 { @apply shadow-speedpyui-1; }
+  .paper-elevation-3 { @apply shadow-speedpyui-3; }
+  .paper-elevation-8 { @apply shadow-speedpyui-8; }
+  .paper-elevation-16 { @apply shadow-speedpyui-16; }
+  .paper-elevation-24 { @apply shadow-speedpyui-24; }
+
+  .breadcrumbs {
+    @apply text-sm font-medium text-fg-secondary;
+  }
+  .breadcrumb-list {
+    @apply flex flex-wrap items-center gap-y-2;
+  }
+  .breadcrumb-item {
+    @apply flex items-center;
+  }
+  .breadcrumb-item + .breadcrumb-item::before {
+    @apply mx-2 text-fg-secondary/60 content-['/'];
+  }
+  .breadcrumb-link {
+    @apply text-fg-secondary transition-colors hover:text-primary hover:no-underline;
+  }
+  .breadcrumb-current {
+    @apply text-fg;
+  }
+
+  .btn-group {
+    @apply inline-flex items-stretch rounded-lg shadow-sm;
+  }
+  .btn-group > .btn {
+    @apply rounded-none;
+  }
+  .btn-group > .btn:not(:first-child) {
+    margin-left: -1px;
+  }
+  .btn-group > .btn:first-child {
+    @apply rounded-l-lg;
+  }
+  .btn-group > .btn:last-child {
+    @apply rounded-r-lg;
+  }
+  .btn-group-vertical {
+    @apply inline-flex flex-col items-stretch rounded-lg shadow-sm;
+  }
+  .btn-group-vertical > .btn {
+    @apply rounded-none;
+  }
+  .btn-group-vertical > .btn:not(:first-child) {
+    margin-top: -1px;
+  }
+  .btn-group-vertical > .btn:first-child {
+    @apply rounded-t-lg;
+  }
+  .btn-group-vertical > .btn:last-child {
+    @apply rounded-b-lg;
+  }
+
+  .skeleton {
+    @apply animate-pulse bg-neutral-200 dark:bg-neutral-700;
+  }
+  .skeleton-text {
+    @apply h-3 rounded;
+  }
+  .skeleton-text-lg {
+    @apply h-5 rounded;
+  }
+  .skeleton-circular {
+    @apply rounded-full;
+  }
+  .skeleton-rectangular {
+    @apply rounded-lg;
+  }
+
+  .progress {
+    @apply flex h-2.5 w-full overflow-hidden rounded-full bg-neutral-200 dark:bg-neutral-700;
+  }
+  .progress-sm { @apply h-1.5; }
+  .progress-lg { @apply h-4; }
+  .progress-xl { @apply h-6; }
+  .progress-bar {
+    @apply h-full rounded-full bg-primary transition-[width] duration-300;
+  }
+  .progress-primary { @apply bg-primary; }
+  .progress-secondary { @apply bg-secondary; }
+  .progress-success { @apply bg-success; }
+  .progress-info { @apply bg-info; }
+  .progress-warning { @apply bg-warning; }
+  .progress-error { @apply bg-error; }
+
+  .timeline {
+    @apply space-y-0;
+  }
+  .timeline-item {
+    @apply relative grid grid-cols-[auto,1fr] gap-x-4 pb-6;
+  }
+  .timeline-item::before {
+    @apply absolute bottom-0 left-[0.4375rem] top-7 w-px bg-divider content-[''];
+  }
+  .timeline-item:last-child {
+    @apply pb-0;
+  }
+  .timeline-item:last-child::before {
+    @apply hidden;
+  }
+  .timeline-marker {
+    @apply relative z-10 mt-1 h-3.5 w-3.5 rounded-full border-2 border-background-paper bg-primary shadow-speedpyui-1;
+  }
+  .timeline-marker-success { @apply bg-success; }
+  .timeline-marker-info { @apply bg-info; }
+  .timeline-marker-warning { @apply bg-warning; }
+  .timeline-marker-error { @apply bg-error; }
+  .timeline-content {
+    @apply min-w-0;
+  }
+  .timeline-title {
+    @apply mb-1 text-sm font-semibold text-fg;
+  }
+  .timeline-meta {
+    @apply mb-1 text-xs font-medium text-fg-secondary;
+  }
+  .timeline-body {
+    @apply text-sm leading-6 text-fg-secondary;
+  }
+
+  .stepper {
+    @apply flex flex-col gap-4 sm:flex-row sm:items-start;
+  }
+  .step {
+    @apply flex min-w-0 flex-1 items-start gap-3 text-fg-secondary;
+  }
+  .step:not(:last-child)::after {
+    @apply mt-4 hidden h-px flex-1 bg-divider content-[''] sm:block;
+  }
+  .step-marker {
+    @apply flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-divider bg-background-paper text-sm font-semibold text-fg-secondary;
+  }
+  .step-body {
+    @apply min-w-0;
+  }
+  .step-label {
+    @apply mb-0 text-sm font-semibold text-fg-secondary;
+  }
+  .step-description {
+    @apply mb-0 text-xs leading-5 text-fg-secondary;
+  }
+  .step-completed .step-marker {
+    @apply border-success bg-success text-success-contrast;
+  }
+  .step-completed .step-label {
+    @apply text-fg;
+  }
+  .step-active .step-marker {
+    @apply border-primary bg-primary text-primary-contrast;
+  }
+  .step-active .step-label {
+    @apply text-primary;
+  }
+  .step-link {
+    @apply rounded-lg hover:no-underline focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40;
+  }
+
+  .accordion {
+    @apply space-y-3;
+  }
+  .accordion-item {
+    @apply overflow-hidden rounded-lg border border-divider bg-background-paper text-fg shadow-speedpyui-1;
+  }
+  .accordion-header {
+    @apply flex w-full cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-left text-sm font-semibold text-fg transition-colors hover:bg-primary/5;
+  }
+  .accordion-header::-webkit-details-marker {
+    display: none;
+  }
+  .accordion-header::after {
+    @apply flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-background text-fg-secondary content-['+'];
+  }
+  .accordion-item[open] > .accordion-header {
+    @apply border-b border-divider text-primary;
+  }
+  .accordion-item[open] > .accordion-header::after {
+    @apply content-['-'];
+  }
+  .accordion-body {
+    @apply px-5 py-4 text-sm leading-6 text-fg-secondary;
+  }
+
+  .pagination > .btn { @apply px-3 py-1; }
+  .disabled { @apply opacity-80 pointer-events-none; }
+
+  /* Terrazzo's specification-sheet layout, adapted to a working SaaS screen. */
+  .app-topbar {
+    border-bottom: 2px solid rgb(var(--color-text-primary));
+    background: rgb(var(--color-background-default));
+    box-shadow: none;
+  }
+  .app-sidebar { border-right: 2px solid rgb(var(--color-text-primary)); }
+  .app-shell .sidebar-brand:hover { text-decoration: none; }
+  .sidebar-company { @apply mt-auto border-t border-divider pt-6; }
+  .sidebar-brand-mark { @apply h-9 w-9 shrink-0; }
+
+  .form-input,
+  .form-select {
+    @apply border border-fg-secondary bg-background-paper px-3 py-3 text-sm text-fg
+           placeholder:text-fg-secondary focus:border-primary focus:ring-1 focus:ring-primary;
+    border-radius: 0;
+  }
+  .btn { min-height: 44px; }
+  .btn-outlined { border-width: 2px; }
+  .input-outlined:disabled,
+  .textarea-outlined:disabled,
+  .select-outlined:disabled { background: rgb(var(--color-band)); }
+  .app-shell textarea[readonly] {
+    @apply border-fg-secondary bg-background-paper text-fg focus:border-primary focus:ring-primary;
+  }
+  .badge,
+  .badge-lg { border: 1px solid currentColor; font-weight: 500; }
+  .table { border-top: 2px solid rgb(var(--color-text-primary)); }
+  .table > thead > tr > th { text-transform: none; font-weight: 500; }
+  .list-group { border-inline: 0; border-radius: 0; }
+  .list-group-item { padding-inline: 0; }
+
+  .workflow-steps li { border-radius: 0; border-top-width: 2px; }
+  .workflow-marker {
+    @apply flex h-7 w-7 shrink-0 items-center justify-center border border-divider bg-background text-sm font-medium text-fg-secondary;
+    font-variant-numeric: tabular-nums;
+  }
+  [aria-current="step"] .workflow-marker {
+    background: rgb(var(--color-control));
+    border-color: rgb(var(--color-control));
+    color: rgb(var(--color-control-contrast));
+  }
+  .workflow-marker-complete { @apply border-success/40 text-success; }
+
+  .scope-workspace {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+  .scope-workspace > .page-header { max-width: none; width: 100%; margin: 0; }
+  .scope-workspace > section,
+  .scope-workspace > aside { margin-top: 0; min-width: 0; }
+  .workspace-filters {
+    @apply border-0 border-b border-divider bg-transparent shadow-none;
+  }
+  .workspace-filters .card-body { padding: 0 0 1.5rem; }
+  .workspace-queue .card-body,
+  .workspace-finance .card-body,
+  .workspace-projects .card-body { @apply p-5 lg:p-6; }
+  .workspace-queue li[data-queue-state] { @apply lg:flex-col lg:items-start xl:flex-row xl:items-center; }
+  .workspace-finance [data-finance-currency] { grid-template-columns: minmax(0, 1fr); }
+  .workspace-finance [data-finance-currency] > div {
+    border-width: 0 0 1px;
+    padding: 1rem 0;
+  }
+  .workspace-finance [data-finance-currency] .h2 {
+    font-size: clamp(1.5rem, 2.2vw, 2rem);
+    font-variant-numeric: tabular-nums;
+    overflow-wrap: anywhere;
+  }
+  .workspace-demo {
+    @apply border-2 border-fg p-5 lg:p-6;
+    background: rgb(var(--color-band));
+  }
+  @media (min-width: 1280px) {
+    .scope-workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+      gap: 2rem;
+      align-items: start;
+    }
+    .scope-workspace > * { margin-block: 0; }
+    .scope-workspace > .page-header,
+    .scope-workspace > .workspace-filters { grid-column: 1 / -1; }
+  }
+  @media (max-width: 639px) {
+    .card { box-shadow: 4px 4px 0 rgb(var(--color-offset)); }
+    .app-shell .page-header-buttons { width: 100%; }
+    .app-shell .page-header-buttons .btn { max-width: 100%; }
+    .workflow-steps li > div { flex-direction: column; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+  /* Link hover states — plain hover: utility, no base a {} rule to avoid
+   * self-referential @apply on color tokens that share names with utilities. */
+  .taos-init        { @apply duration-[400ms]; }
+}
+
+/* ==========================================================================
+ * DRIVER.JS TOUR — themed overrides to match SpeedpyUI
+ * Supports light + dark mode via CSS-variable tokens.
+ * Placed outside @layer components so Tailwind does not purge these rules
+ * (driver-popover class names live only in vendor JS, not scanned content).
+ * ========================================================================== */
+.driver-popover {
+  @apply bg-background-paper text-fg rounded-lg border border-divider
+         shadow-speedpyui-16 p-5;
+  min-width: 260px;
+  max-width: 320px;
+}
+.driver-popover * { font-family: inherit; }
+
+.driver-popover-title {
+  @apply text-base font-semibold text-fg leading-tight mb-1;
+}
+.driver-popover-description {
+  @apply text-sm text-fg-secondary leading-relaxed;
+}
+.driver-popover-close-btn {
+  @apply text-fg-secondary hover:text-fg focus:text-fg
+         transition-colors duration-150;
+  top: 8px;
+  right: 8px;
+}
+.driver-popover-progress-text {
+  @apply text-xs text-fg-secondary;
+}
+.driver-popover-footer {
+  @apply mt-4 flex items-center justify-between gap-2;
+}
+.driver-popover-footer button {
+  @apply inline-flex items-center justify-center gap-2
+         rounded-lg border border-transparent
+         text-[0.8125rem] font-semibold leading-[1.75]
+         px-4 py-[0.375rem] cursor-pointer
+         transition-colors duration-150
+         focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
+         focus-visible:ring-offset-background focus-visible:ring-primary;
+  text-shadow: none;
+}
+/* Previous button — outlined/secondary */
+.driver-popover-footer .driver-popover-prev-btn {
+  @apply bg-transparent border-divider text-fg
+         hover:bg-neutral-500/10 hover:border-neutral-500/60;
+}
+/* Next / Done button — primary filled */
+.driver-popover-footer .driver-popover-next-btn {
+  @apply bg-primary text-primary-contrast border-transparent
+         hover:bg-primary-dark;
+}
+.driver-popover-footer .driver-popover-btn-disabled {
+  @apply opacity-50 pointer-events-none;
+}
+
+/* Arrow follows popover bg; override border-* directions still set by driver.js */
+.driver-popover-arrow { border-width: 6px; }
+.driver-popover-arrow-side-left   { border-left-color:   rgb(var(--color-background-paper)); }
+.driver-popover-arrow-side-right  { border-right-color:  rgb(var(--color-background-paper)); }
+.driver-popover-arrow-side-top    { border-top-color:    rgb(var(--color-background-paper)); }
+.driver-popover-arrow-side-bottom { border-bottom-color: rgb(var(--color-background-paper)); }

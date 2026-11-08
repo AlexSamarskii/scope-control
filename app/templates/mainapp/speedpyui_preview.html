@@ -1,0 +1,1067 @@
+{% extends "base.html" %}
+
+{% block head_title %}SpeedPy UI Preview{% endblock %}
+
+{% block content %}
+<main class="section speedpyui-preview">
+    <div class="page-container space-y-14">
+        <header class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+            <div>
+                <p class="eyebrow">SpeedPy UI</p>
+                <h1 class="h1 mb-2">Component Preview</h1>
+                <p class="lead max-w-3xl">
+                    Reusable Tailwind-backed classes for SpeedPy pages, forms, account screens,
+                    navigation, and dashboard surfaces.
+                </p>
+            </div>
+            <button type="button"
+                    id="preview-theme-toggle"
+                    class="btn btn-outlined btn-inherit btn-md"
+                    onclick="document.documentElement.classList.toggle('dark')">
+                Toggle theme
+            </button>
+        </header>
+
+        {% comment %}---------- Typography and layout ----------{% endcomment %}
+        <section class="space-y-6">
+            <div class="section-header text-left mx-0">
+                <p class="eyebrow">Foundation</p>
+                <h2 class="h2">Typography and Page Layout</h2>
+                <p class="lead">
+                    Use page and section helpers before reaching for long wrapper utilities.
+                </p>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div class="card shadow-speedpyui-1">
+                    <div class="card-body space-y-3">
+                        <p class="eyebrow">Overview</p>
+                        <h1 class="h1">Heading One</h1>
+                        <h2 class="h2">Heading Two</h2>
+                        <h3 class="h3">Heading Three</h3>
+                        <p class="lead">Lead copy is for page intros and section summaries.</p>
+                    </div>
+                </div>
+
+                <div class="rounded-lg border border-divider bg-background-paper p-5">
+                    <p class="eyebrow">Code</p>
+                    <pre class="overflow-x-auto rounded-lg bg-background p-4 text-xs text-fg-secondary"><code>&lt;div class="page-container"&gt;
+  &lt;div class="section-header"&gt;
+    &lt;p class="eyebrow"&gt;Overview&lt;/p&gt;
+    &lt;h1 class="h1"&gt;Dashboard&lt;/h1&gt;
+    &lt;p class="lead"&gt;Summary text.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        {% comment %}---------- Buttons ----------{% endcomment %}
+        <section class="space-y-6">
+            <div class="section-header text-left mx-0">
+                <p class="eyebrow">Actions</p>
+                <h2 class="h2">Buttons</h2>
+                <p class="lead">
+                    Compose variant, color, and size. Size defaults to medium.
+                </p>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div class="card shadow-speedpyui-1">
+                    <div class="card-body space-y-6">
+                        <div>
+                            <h3 class="h4 mb-3">Contained</h3>
+                            <div class="flex flex-wrap gap-3">
+                                <button class="btn btn-contained btn-primary">Primary</button>
+                                <button class="btn btn-contained btn-secondary">Secondary</button>
+                                <button class="btn btn-contained btn-success">Success</button>
+                                <button class="btn btn-contained btn-info">Info</button>
+                                <button class="btn btn-contained btn-warning">Warning</button>
+                                <button class="btn btn-contained btn-error">Error</button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="h4 mb-3">Outlined and Text</h3>
+                            <div class="flex flex-wrap gap-3">
+                                <button class="btn btn-outlined btn-primary">Outlined</button>
+                                <button class="btn btn-text btn-primary">Text</button>
+                                <button class="btn btn-outlined btn-error btn-sm">Small</button>
+                                <button class="btn btn-contained btn-primary btn-lg">Large</button>
+                                <button class="btn btn-contained btn-primary" disabled>Disabled</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rounded-lg border border-divider bg-background-paper p-5">
+                    <p class="eyebrow">Code</p>
+                    <pre class="overflow-x-auto rounded-lg bg-background p-4 text-xs text-fg-secondary"><code>&lt;button class="btn btn-contained btn-primary"&gt;Save&lt;/button&gt;
+&lt;button class="btn btn-outlined btn-error btn-sm"&gt;Delete&lt;/button&gt;
+&lt;a href="#" class="btn btn-text btn-secondary btn-lg"&gt;Learn more&lt;/a&gt;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        {% comment %}---------- Low-JS primitives ----------{% endcomment %}
+        <section class="space-y-6">
+            <div class="section-header text-left mx-0">
+                <p class="eyebrow">New Primitives</p>
+                <h2 class="h2">Low-JS Components</h2>
+                <p class="lead">
+                    Static and native HTML components for common product UI patterns.
+                </p>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div class="paper paper-outlined paper-padded paper-elevation-1">
+                    <h3 class="h4 mb-3">Divider</h3>
+                    <p class="mb-0 text-sm text-fg-secondary">Section one</p>
+                    <hr class="divider">
+                    <p class="mb-0 text-sm text-fg-secondary">Section two</p>
+                    <div class="divider-text">or continue with</div>
+                    <div class="flex h-10 items-center text-sm text-fg-secondary">
+                        <span>Left</span>
+                        <span class="divider-vertical"></span>
+                        <span>Right</span>
+                    </div>
+                </div>
+
+                <div class="rounded-lg border border-divider bg-background-paper p-5">
+                    <p class="eyebrow">Code</p>
+                    <pre class="overflow-x-auto rounded-lg bg-background p-4 text-xs text-fg-secondary"><code>&lt;hr class="divider"&gt;
+&lt;div class="divider-text"&gt;or continue with&lt;/div&gt;
+&lt;span class="divider-vertical"&gt;&lt;/span&gt;</code></pre>
+                </div>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div class="paper paper-outlined paper-padded paper-elevation-1">
+                    <h3 class="h4 mb-3">Paper</h3>
+                    <div class="grid gap-3 sm:grid-cols-3">
+                        <div class="paper paper-outlined paper-padded paper-elevation-0">
+                            <p class="mb-0 text-sm font-semibold text-fg">Outlined</p>
+                        </div>
+                        <div class="paper paper-padded paper-elevation-3">
+                            <p class="mb-0 text-sm font-semibold text-fg">Raised</p>
+                        </div>
+                        <div class="paper paper-padded paper-elevation-16">
+                            <p class="mb-0 text-sm font-semibold text-fg">Overlay</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rounded-lg border border-divider bg-background-paper p-5">
+                    <p class="eyebrow">Code</p>
+                    <pre class="overflow-x-auto rounded-lg bg-background p-4 text-xs text-fg-secondary"><code>&lt;div class="paper paper-outlined paper-padded paper-elevation-1"&gt;
+  Content
+&lt;/div&gt;</code></pre>
+                </div>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div class="paper paper-outlined paper-padded paper-elevation-1">
+                    <h3 class="h4 mb-3">Chips</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="chip">Default</span>
+                        <span class="chip chip-primary">Primary</span>
+                        <span class="chip chip-success">Success</span>
+                        <span class="chip chip-warning">Warning</span>
+                        <span class="chip chip-error">Error</span>
+                        <span class="chip chip-outlined chip-info">Outlined</span>
+                        <span class="chip chip-primary">
+                            <span class="chip-avatar">A</span>
+                            Assigned
+                        </span>
+                        <span class="chip chip-outlined">
+                            Removable
+                            <button type="button" class="chip-remove" aria-label="Remove chip">&times;</button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="rounded-lg border border-divider bg-background-paper p-5">
+                    <p class="eyebrow">Code</p>
+                    <pre class="overflow-x-auto rounded-lg bg-background p-4 text-xs text-fg-secondary"><code>&lt;span class="chip chip-primary"&gt;
+  &lt;span class="chip-avatar"&gt;A&lt;/span&gt;
+  Assigned
+&lt;/span&gt;
+&lt;span class="chip chip-outlined"&gt;
+  Removable
+  &lt;button type="button" class="chip-remove" aria-label="Remove chip"&gt;&amp;times;&lt;/button&gt;
+&lt;/span&gt;</code></pre>
+                </div>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div class="paper paper-outlined paper-padded paper-elevation-1">
+                    <h3 class="h4 mb-3">Button Group</h3>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="btn-group" role="group" aria-label="View options">
+                            <button type="button" class="btn btn-outlined btn-primary btn-sm">Day</button>
+                            <button type="button" class="btn btn-outlined btn-primary btn-sm">Week</button>
+                            <button type="button" class="btn btn-contained btn-primary btn-sm">Month</button>
+                        </div>
+                        <div class="btn-group-vertical" role="group" aria-label="Record actions">
+                            <button type="button" class="btn btn-outlined btn-inherit btn-sm">Edit</button>
+                            <button type="button" class="btn btn-outlined btn-error btn-sm">Delete</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rounded-lg border border-divider bg-background-paper p-5">
+                    <p class="eyebrow">Code</p>
+                    <pre class="overflow-x-auto rounded-lg bg-background p-4 text-xs text-fg-secondary"><code>&lt;div class="btn-group" role="group" aria-label="View options"&gt;
+  &lt;button class="btn btn-outlined btn-primary btn-sm"&gt;Day&lt;/button&gt;
+  &lt;button class="btn btn-outlined btn-primary btn-sm"&gt;Week&lt;/button&gt;
+  &lt;button class="btn btn-contained btn-primary btn-sm"&gt;Month&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div class="paper paper-outlined paper-padded paper-elevation-1">
+                    <h3 class="h4 mb-3">Breadcrumbs</h3>
+                    <nav class="breadcrumbs" aria-label="Breadcrumb">
+                        <ol class="breadcrumb-list">
+                            <li class="breadcrumb-item"><a class="breadcrumb-link" href="#">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a class="breadcrumb-link" href="#">Teams</a></li>
+                            <li class="breadcrumb-item"><span class="breadcrumb-current" aria-current="page">Members</span></li>
+                        </ol>
+                    </nav>
+                </div>
+
+                <div class="rounded-lg border border-divider bg-background-paper p-5">
+                    <p class="eyebrow">Code</p>
+                    <pre class="overflow-x-auto rounded-lg bg-background p-4 text-xs text-fg-secondary"><code>&lt;nav class="breadcrumbs" aria-label="Breadcrumb"&gt;
+  &lt;ol class="breadcrumb-list"&gt;
+    &lt;li class="breadcrumb-item"&gt;&lt;a class="breadcrumb-link" href="#"&gt;Dashboard&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="breadcrumb-item"&gt;&lt;span class="breadcrumb-current"&gt;Members&lt;/span&gt;&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/nav&gt;</code></pre>
+                </div>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div class="paper paper-outlined paper-padded paper-elevation-1">
+                    <h3 class="h4 mb-3">Skeleton</h3>
+                    <div class="flex gap-4">
+                        <div class="skeleton skeleton-circular h-12 w-12"></div>
+                        <div class="min-w-0 flex-1 space-y-3">
+                            <div class="skeleton skeleton-text-lg w-2/3"></div>
+                            <div class="skeleton skeleton-text w-full"></div>
+                            <div class="skeleton skeleton-text w-5/6"></div>
+                            <div class="skeleton skeleton-rectangular h-20 w-full"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rounded-lg border border-divider bg-background-paper p-5">
+                    <p class="eyebrow">Code</p>
+                    <pre class="overflow-x-auto rounded-lg bg-background p-4 text-xs text-fg-secondary"><code>&lt;div class="skeleton skeleton-circular h-12 w-12"&gt;&lt;/div&gt;
+&lt;div class="skeleton skeleton-text-lg w-2/3"&gt;&lt;/div&gt;
+&lt;div class="skeleton skeleton-text w-full"&gt;&lt;/div&gt;
+&lt;div class="skeleton skeleton-rectangular h-20 w-full"&gt;&lt;/div&gt;</code></pre>
+                </div>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div class="paper paper-outlined paper-padded paper-elevation-1">
+                    <h3 class="h4 mb-3">Linear Progress</h3>
+                    <div class="space-y-4">
+                        <div class="progress" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar progress-primary" style="width: 45%"></div>
+                        </div>
+                        <div class="progress progress-lg" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar progress-success" style="width: 72%"></div>
+                        </div>
+                        <div class="progress progress-sm" role="progressbar" aria-valuenow="28" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar progress-warning" style="width: 28%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rounded-lg border border-divider bg-background-paper p-5">
+                    <p class="eyebrow">Code</p>
+                    <pre class="overflow-x-auto rounded-lg bg-background p-4 text-xs text-fg-secondary"><code>&lt;div class="progress" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"&gt;
+  &lt;div class="progress-bar progress-primary" style="width: 45%"&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div class="paper paper-outlined paper-padded paper-elevation-1">
+                    <h3 class="h4 mb-3">Accordion</h3>
+                    <div class="accordion">
+                        <details class="accordion-item" open>
+                            <summary class="accordion-header">Can this use native HTML?</summary>
+                            <div class="accordion-body">
+                                Yes. The first version uses details and summary, so it works without custom JavaScript.
+                            </div>
+                        </details>
+                        <details class="accordion-item">
+                            <summary class="accordion-header">When should Alpine be added?</summary>
+                            <div class="accordion-body">
+                                Add Alpine only when the product needs behavior like one-open-at-a-time groups.
+                            </div>
+                        </details>
+                    </div>
+                </div>
+
+                <div class="rounded-lg border border-divider bg-background-paper p-5">
+                    <p class="eyebrow">Code</p>
+                    <pre class="overflow-x-auto rounded-lg bg-background p-4 text-xs text-fg-secondary"><code>&lt;details class="accordion-item" open&gt;
+  &lt;summary class="accordion-header"&gt;Question&lt;/summary&gt;
+  &lt;div class="accordion-body"&gt;Answer&lt;/div&gt;
+&lt;/details&gt;</code></pre>
+                </div>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div class="paper paper-outlined paper-padded paper-elevation-1">
+                    <h3 class="h4 mb-3">Timeline</h3>
+                    <ol class="timeline">
+                        <li class="timeline-item">
+                            <span class="timeline-marker timeline-marker-success"></span>
+                            <div class="timeline-content">
+                                <p class="timeline-title">Invite accepted</p>
+                                <p class="timeline-meta">Today at 09:24</p>
+                                <p class="timeline-body">A new member joined the workspace.</p>
+                            </div>
+                        </li>
+                        <li class="timeline-item">
+                            <span class="timeline-marker timeline-marker-info"></span>
+                            <div class="timeline-content">
+                                <p class="timeline-title">Plan changed</p>
+                                <p class="timeline-meta">Yesterday at 16:10</p>
+                                <p class="timeline-body">Billing moved to the growth plan.</p>
+                            </div>
+                        </li>
+                        <li class="timeline-item">
+                            <span class="timeline-marker timeline-marker-warning"></span>
+                            <div class="timeline-content">
+                                <p class="timeline-title">Review requested</p>
+                                <p class="timeline-meta">Monday at 11:02</p>
+                                <p class="timeline-body">Security settings need an owner review.</p>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="rounded-lg border border-divider bg-background-paper p-5">
+                    <p class="eyebrow">Code</p>
+                    <pre class="overflow-x-auto rounded-lg bg-background p-4 text-xs text-fg-secondary"><code>&lt;ol class="timeline"&gt;
+  &lt;li class="timeline-item"&gt;
+    &lt;span class="timeline-marker timeline-marker-success"&gt;&lt;/span&gt;
+    &lt;div class="timeline-content"&gt;...&lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+                </div>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div class="paper paper-outlined paper-padded paper-elevation-1">
+                    <h3 class="h4 mb-3">Stepper</h3>
+                    <ol class="stepper">
+                        <li class="step step-completed">
+                            <span class="step-marker">1</span>
+                            <div class="step-body">
+                                <p class="step-label">Account</p>
+                                <p class="step-description">Profile created</p>
+                            </div>
+                        </li>
+                        <li class="step step-active">
+                            <span class="step-marker">2</span>
+                            <div class="step-body">
+                                <p class="step-label">Team</p>
+                                <p class="step-description">Invite members</p>
+                            </div>
+                        </li>
+                        <li class="step">
+                            <span class="step-marker">3</span>
+                            <div class="step-body">
+                                <p class="step-label">Billing</p>
+                                <p class="step-description">Choose a plan</p>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="rounded-lg border border-divider bg-background-paper p-5">
+                    <p class="eyebrow">Code</p>
+                    <pre class="overflow-x-auto rounded-lg bg-background p-4 text-xs text-fg-secondary"><code>&lt;ol class="stepper"&gt;
+  &lt;li class="step step-active"&gt;
+    &lt;span class="step-marker"&gt;2&lt;/span&gt;
+    &lt;div class="step-body"&gt;...&lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        {% comment %}---------- Forms ----------{% endcomment %}
+        <section class="space-y-6">
+            <div class="section-header text-left mx-0">
+                <p class="eyebrow">Forms</p>
+                <h2 class="h2">Inputs and Controls</h2>
+                <p class="lead">
+                    Crispy templates already emit these classes for most form fields.
+                </p>
+                <div class="mt-4">
+                    <a href="{% url "speedpyui_preview_form_view" %}" class="btn btn-contained btn-primary">
+                        Open Django FormView example
+                    </a>
+                </div>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div class="card shadow-speedpyui-1">
+                    <div class="card-body grid gap-6 md:grid-cols-2">
+                        <div class="form-field">
+                            <label class="input-label" for="preview-text">Text input</label>
+                            <input class="input-outlined" id="preview-text" type="text" placeholder="Placeholder">
+                            <p class="input-helper">Helper text sits beneath the field.</p>
+                        </div>
+
+                        <div class="form-field">
+                            <label class="input-label" for="preview-email">Email</label>
+                            <input class="input-outlined" id="preview-email" type="email" placeholder="you@example.com">
+                        </div>
+
+                        <div class="form-field">
+                            <label class="input-label" for="preview-error">With error</label>
+                            <input class="input-outlined input-error" id="preview-error" type="text" value="Invalid value">
+                            <p class="input-error-text">This field is required.</p>
+                        </div>
+
+                        <div class="form-field">
+                            <label class="input-label" for="preview-select">Select</label>
+                            <select class="select-outlined" id="preview-select">
+                                <option>Option one</option>
+                                <option>Option two</option>
+                                <option>Option three</option>
+                            </select>
+                        </div>
+
+                        <div class="form-field md:col-span-2">
+                            <label class="input-label" for="preview-textarea">Textarea</label>
+                            <textarea class="textarea-outlined" id="preview-textarea" rows="4" placeholder="Type something..."></textarea>
+                        </div>
+
+                        <div class="form-field">
+                            <span class="input-label">Input group</span>
+                            <div class="input-group">
+                                <span class="input-group-text input-group-text-prepend">@</span>
+                                <input class="input-outlined" type="text" placeholder="username">
+                            </div>
+                            <div class="input-group mt-3">
+                                <input type="text" class="input-outlined" placeholder="Amount">
+                                <span class="input-group-text input-group-text-append">.00</span>
+                            </div>
+                        </div>
+
+                        <div class="form-field">
+                            <span class="input-label">Choices</span>
+                            <label class="mr-4 inline-flex items-center gap-2 text-fg">
+                                <input type="checkbox" class="checkbox" checked> Subscribe
+                            </label>
+                            <label class="mr-4 inline-flex items-center gap-2 text-fg">
+                                <input type="radio" name="preview-radio" class="radio" checked> One
+                            </label>
+                            <label class="switch ml-1">
+                                <input type="checkbox" class="sr-only peer" checked>
+                                <span class="switch-track"></span>
+                                <span class="switch-thumb"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rounded-lg border border-divider bg-background-paper p-5">
+                    <p class="eyebrow">Code</p>
+                    <pre class="overflow-x-auto rounded-lg bg-background p-4 text-xs text-fg-secondary"><code>&lt;div class="form-field"&gt;
+  &lt;label class="input-label" for="email"&gt;Email&lt;/label&gt;
+  &lt;input class="input-outlined" id="email" type="email"&gt;
+  &lt;p class="input-helper"&gt;Helper text.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;label class="switch"&gt;
+  &lt;input type="checkbox" class="sr-only peer"&gt;
+  &lt;span class="switch-track"&gt;&lt;/span&gt;
+  &lt;span class="switch-thumb"&gt;&lt;/span&gt;
+&lt;/label&gt;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        {% comment %}---------- CRUD screens ----------{% endcomment %}
+        {% comment %}SPEEDPY_DEMO: demo app links section — remove before production{% endcomment %}
+        <section class="space-y-6">
+            <div class="section-header text-left mx-0">
+                <p class="eyebrow">Demo App</p>
+                <h2 class="h2">CRUD Screens</h2>
+                <p class="lead">
+                    A complete Product example shows how the component classes fit regular Django generic views.
+                </p>
+                <div class="mt-4 flex flex-wrap gap-3">
+                    <a href="{% url "demo_product_list" %}" class="btn btn-contained btn-primary">
+                        Open Product CRUD demo
+                    </a>
+                    <a href="{% url "demo_product_create" %}" class="btn btn-outlined btn-primary">
+                        Open CreateView
+                    </a>
+                </div>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div class="card shadow-speedpyui-1">
+                    <div class="card-header">
+                        <h3 class="h3 mb-1">What is included</h3>
+                        <p class="lead mb-0">List, create, detail, and delete pages live in `demoapp`.</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group">
+                            <a href="{% url "demo_product_list" %}" class="list-group-item hover:bg-primary/5">
+                                Product ListView
+                            </a>
+                            <a href="{% url "demo_product_create" %}" class="list-group-item hover:bg-primary/5">
+                                Product CreateView
+                            </a>
+                            <span class="list-group-item text-fg-secondary">
+                                Product DetailView and DeleteView are linked from each product row.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rounded-lg border border-divider bg-background-paper p-5">
+                    <p class="eyebrow">Code</p>
+                    <pre class="overflow-x-auto rounded-lg bg-background p-4 text-xs text-fg-secondary"><code>class ProductListView(ListView):
+    model = Product
+    template_name = "demoapp/product_list.html"
+    context_object_name = "products"
+
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    template_name = "demoapp/product_form.html"</code></pre>
+                </div>
+            </div>
+        </section>
+
+        {% comment %}---------- Surfaces ----------{% endcomment %}
+        <section class="space-y-6">
+            <div class="section-header text-left mx-0">
+                <p class="eyebrow">Surfaces</p>
+                <h2 class="h2">Cards, Lists, Badges, and Alerts</h2>
+                <p class="lead">
+                    Use these for dashboard panels, account pages, status rows, and short messages.
+                </p>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="h3 mb-0">Card title</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="lead mb-0">Card body content uses the theme surface, divider, and elevation tokens.</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-contained btn-primary btn-sm">Action</button>
+                    </div>
+                </div>
+
+                <div class="rounded-lg border border-divider bg-background-paper p-5">
+                    <p class="eyebrow">Code</p>
+                    <pre class="overflow-x-auto rounded-lg bg-background p-4 text-xs text-fg-secondary"><code>&lt;div class="card"&gt;
+  &lt;div class="card-header"&gt;&lt;h2 class="h3"&gt;Title&lt;/h2&gt;&lt;/div&gt;
+  &lt;div class="card-body"&gt;Content&lt;/div&gt;
+  &lt;div class="card-footer"&gt;Actions&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <ul class="list-group">
+                    <li class="list-group-item flex items-center justify-between">
+                        <span class="font-medium text-fg">Primary email</span>
+                        <span class="badge badge-primary">Primary</span>
+                    </li>
+                    <li class="list-group-item flex items-center justify-between">
+                        <span class="font-medium text-fg">Security status</span>
+                        <span class="badge badge-success">Verified</span>
+                    </li>
+                </ul>
+
+                <div class="rounded-lg border border-divider bg-background-paper p-5">
+                    <p class="eyebrow">Code</p>
+                    <pre class="overflow-x-auto rounded-lg bg-background p-4 text-xs text-fg-secondary"><code>&lt;ul class="list-group"&gt;
+  &lt;li class="list-group-item"&gt;Primary email&lt;/li&gt;
+  &lt;li class="list-group-item"&gt;Security status&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+                </div>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div class="paper paper-outlined paper-padded paper-elevation-1">
+                    <h3 class="h4 mb-3">Badges</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="badge badge-primary">Primary</span>
+                        <span class="badge badge-secondary">Secondary</span>
+                        <span class="badge badge-success">Success</span>
+                        <span class="badge badge-info">Info</span>
+                        <span class="badge badge-warning">Warning</span>
+                        <span class="badge badge-error">Error</span>
+                    </div>
+                </div>
+
+                <div class="rounded-lg border border-divider bg-background-paper p-5">
+                    <p class="eyebrow">Code</p>
+                    <pre class="overflow-x-auto rounded-lg bg-background p-4 text-xs text-fg-secondary"><code>&lt;span class="badge badge-primary"&gt;Primary&lt;/span&gt;
+&lt;span class="badge badge-success"&gt;Success&lt;/span&gt;
+&lt;span class="badge badge-error"&gt;Error&lt;/span&gt;</code></pre>
+                </div>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div class="paper paper-outlined paper-padded paper-elevation-1">
+                    <h3 class="h4 mb-3">Alerts</h3>
+                    <div class="space-y-3">
+                        <div class="alert alert-success">Your account settings were saved.</div>
+                        <div class="alert alert-warning">Two-factor authentication is not enabled.</div>
+                        <div class="alert alert-error">This destructive action needs confirmation.</div>
+                        <div class="alert alert-info">Your trial ends in three days.</div>
+                        <div class="alert alert-neutral">Nothing to report right now.</div>
+                        <div class="alert alert-primary">A new version is available.</div>
+                        <div class="alert alert-secondary">Draft saved locally.</div>
+                        <div class="alert alert-tertiary">Linked to your other workspace.</div>
+                        <div class="alert alert-light">A quiet aside.</div>
+                    </div>
+                </div>
+
+                <div class="rounded-lg border border-divider bg-background-paper p-5">
+                    <p class="eyebrow">Code</p>
+                    <pre class="overflow-x-auto rounded-lg bg-background p-4 text-xs text-fg-secondary"><code>&lt;div class="alert alert-success"&gt;Saved successfully.&lt;/div&gt;
+&lt;div class="alert alert-warning"&gt;Review this setting.&lt;/div&gt;
+&lt;div class="alert alert-error"&gt;Action failed.&lt;/div&gt;
+&lt;div class="alert alert-info"&gt;For your information.&lt;/div&gt;
+&lt;div class="alert alert-neutral"&gt;No strong signal either way.&lt;/div&gt;</code></pre>
+                    <p class="mt-3 text-xs text-fg-secondary">
+                        Variants: <code>alert-success</code> <code>alert-error</code>
+                        <code>alert-warning</code> <code>alert-info</code>
+                        <code>alert-primary</code> <code>alert-secondary</code>
+                        <code>alert-tertiary</code> <code>alert-neutral</code>
+                        <code>alert-light</code>.
+                        Every one is listed here on purpose: Tailwind compiles only the
+                        classes it can see, so a variant that appears nowhere is absent
+                        from <code>styles.css</code> and does nothing when you use it.
+                        <code>alert-neutral</code> was in exactly that state until it was
+                        added to this gallery.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        {% comment %}---------- Tables ----------{% endcomment %}
+        <section class="space-y-6">
+            <div class="section-header text-left mx-0">
+                <p class="eyebrow">Data Display</p>
+                <h2 class="h2">Tables</h2>
+                <p class="lead">
+                    Token-aware table classes cover simple admin and settings data.
+                </p>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div class="overflow-hidden rounded-lg border border-divider">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Status</th>
+                            <th>Role</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Mira Ruiz</td>
+                            <td><span class="badge badge-success">Active</span></td>
+                            <td>Owner</td>
+                        </tr>
+                        <tr>
+                            <td>Tom Nakamura</td>
+                            <td><span class="badge badge-warning">Pending</span></td>
+                            <td>Member</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="rounded-lg border border-divider bg-background-paper p-5">
+                    <p class="eyebrow">Code</p>
+                    <pre class="overflow-x-auto rounded-lg bg-background p-4 text-xs text-fg-secondary"><code>&lt;table class="table table-hover table-striped"&gt;
+  &lt;thead&gt;...&lt;/thead&gt;
+  &lt;tbody&gt;...&lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        {% comment %}---------- Account and sidebar navigation ----------{% endcomment %}
+        <section class="space-y-6">
+            <div class="section-header text-left mx-0">
+                <p class="eyebrow">Navigation</p>
+                <h2 class="h2">Account and Sidebar Menus</h2>
+                <p class="lead">
+                    Navigation helpers keep account settings and dashboard sidebar links compact.
+                </p>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div class="card shadow-speedpyui-1">
+                    <div class="card-body">
+                        <h3 class="h4 mb-3">Account Nav</h3>
+                        <ul class="account-nav max-w-md">
+                            <li><a href="#" class="account-nav-link account-nav-link-active">Your Profile</a></li>
+                            <li><a href="#" class="account-nav-link">Change Password</a></li>
+                            <li><a href="#" class="account-nav-link">Two-Factor Authentication</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="rounded-lg border border-divider bg-background-paper p-5">
+                    <p class="eyebrow">Code</p>
+                    <pre class="overflow-x-auto rounded-lg bg-background p-4 text-xs text-fg-secondary"><code>&lt;ul class="account-nav"&gt;
+  &lt;li&gt;&lt;a href="#" class="account-nav-link account-nav-link-active"&gt;Profile&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#" class="account-nav-link"&gt;Change Password&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+                </div>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div class="card shadow-speedpyui-1">
+                    <div class="card-body">
+                        <h3 class="h4 mb-3">Avatars and Media Icons</h3>
+                        <div class="flex items-center gap-3">
+                            <span class="media-icon">A</span>
+                            <span class="avatar-sm">SP</span>
+                            <span class="avatar-xs">UI</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rounded-lg border border-divider bg-background-paper p-5">
+                    <p class="eyebrow">Code</p>
+                    <pre class="overflow-x-auto rounded-lg bg-background p-4 text-xs text-fg-secondary"><code>&lt;span class="media-icon"&gt;A&lt;/span&gt;
+&lt;span class="avatar-sm"&gt;SP&lt;/span&gt;
+&lt;span class="avatar-xs"&gt;UI&lt;/span&gt;</code></pre>
+                </div>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div class="rounded-lg bg-neutral-900 p-4">
+                    <div class="sidebar-brand mb-4">
+                        <span class="avatar-sm">SP</span>
+                        <span class="sidebar-brand-text">SpeedPy</span>
+                    </div>
+                    <p class="sidebar-section-label">General</p>
+                    <ul class="sidebar-nav">
+                        <li>
+                            <a href="#" class="sidebar-link sidebar-link-active">
+                                <svg class="sidebar-link-icon" aria-hidden="true" fill="none" viewBox="0 0 20 20">
+                                    <path d="M3.5 10.5h5v6h-5v-6ZM11.5 3.5h5v13h-5v-13ZM3.5 3.5h5v4h-5v-4Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+                                </svg>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://docs.speedpy.com/" target="_blank" rel="noopener noreferrer" class="sidebar-link">
+                                <svg class="sidebar-link-icon" aria-hidden="true" fill="none" viewBox="0 0 20 20">
+                                    <path d="M5 3.5h7l3 3V16a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 5 16V3.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+                                </svg>
+                                Documentation
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="rounded-lg border border-divider bg-background-paper p-5">
+                    <p class="eyebrow">Code</p>
+                    <pre class="overflow-x-auto rounded-lg bg-background p-4 text-xs text-fg-secondary"><code>&lt;div class="sidebar-brand"&gt;
+  &lt;span class="avatar-sm"&gt;SP&lt;/span&gt;
+  &lt;span class="sidebar-brand-text"&gt;SpeedPy&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;a href="#" class="sidebar-link sidebar-link-active"&gt;
+  &lt;svg class="sidebar-link-icon"&gt;...&lt;/svg&gt;
+  Dashboard
+&lt;/a&gt;</code></pre>
+                </div>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div class="rounded-lg bg-neutral-900 p-4">
+                    <h3 class="mb-3 text-lg font-semibold text-neutral-50">Sidebar Select</h3>
+                    <button class="sidebar-select mt-4 text-neutral-100">
+                        <span class="flex items-center gap-2">
+                            <span class="avatar-xs">TM</span>
+                            Select team
+                        </span>
+                        <span class="text-neutral-400">v</span>
+                    </button>
+                </div>
+
+                <div class="rounded-lg border border-divider bg-background-paper p-5">
+                    <p class="eyebrow">Code</p>
+                    <pre class="overflow-x-auto rounded-lg bg-background p-4 text-xs text-fg-secondary"><code>&lt;button class="sidebar-select text-neutral-100"&gt;
+  &lt;span class="flex items-center gap-2"&gt;
+    &lt;span class="avatar-xs"&gt;TM&lt;/span&gt;
+    Select team
+  &lt;/span&gt;
+  &lt;span class="text-neutral-400"&gt;v&lt;/span&gt;
+&lt;/button&gt;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        {% comment %}---------- Previously uncompiled components ----------{% endcomment %}
+        {% comment %}
+          Everything in this section was DECLARED in input.css and used in no
+          template, which means Tailwind never compiled it and using any of these
+          classes rendered nothing at all — no error, no warning. 50 of 243
+          component classes were in that state.
+
+          They are here because this gallery is what forces classes into the
+          build. Deleting a block below removes that component from styles.css.
+{% endcomment %}
+        <section class="mt-16 space-y-8">
+            <div class="space-y-2">
+                <p class="eyebrow">Recovered components</p>
+                <h2 class="h2">Display, Quotes, Overlays, Tabs</h2>
+                <p class="text-fg-secondary">
+                    Each of these existed in <code>input.css</code> but compiled to
+                    nothing, because no template referenced it. Keep them rendered here.
+                </p>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div class="paper paper-outlined paper-padded paper-elevation-1">
+                    <h3 class="h4 mb-3">Display headings</h3>
+                    <p class="display-4">Ship it</p>
+                    <p class="display-6">Smaller display</p>
+                    <div class="hidden">
+                        <span class="display-1">1</span><span class="display-2">2</span>
+                        <span class="display-3">3</span><span class="display-5">5</span>
+                    </div>
+                </div>
+                <div class="rounded-lg border border-divider bg-background-paper p-5">
+                    <p class="eyebrow">Code</p>
+                    <pre class="overflow-x-auto rounded-lg bg-background p-4 text-xs text-fg-secondary"><code>&lt;h1 class="display-1"&gt;Hero&lt;/h1&gt;
+&lt;p class="display-4"&gt;Section opener&lt;/p&gt;</code></pre>
+                    <p class="mt-3 text-xs text-fg-secondary">
+                        <code>display-1</code> to <code>display-6</code>, largest first.
+                        Fluid: they scale with the viewport, so they are for marketing
+                        pages rather than dense UI.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div class="paper paper-outlined paper-padded paper-elevation-1">
+                    <h3 class="h4 mb-3">Blockquotes</h3>
+                    <blockquote class="blockquote blockquote-primary">Cut the scope, not the quality.</blockquote>
+                    <blockquote class="blockquote blockquote-info mt-3">Measure before you optimise.</blockquote>
+                    <blockquote class="blockquote blockquote-warning mt-3">This one needs a second pair of eyes.</blockquote>
+                    <div class="hidden">
+                        <span class="blockquote-success"></span><span class="blockquote-danger"></span>
+                        <span class="blockquote-secondary"></span><span class="blockquote-tertiary"></span>
+                        <span class="blockquote-neutral"></span><span class="blockquote-muted"></span>
+                        <span class="blockquote-dark"></span><span class="blockquote-light"></span>
+                        <span class="blockquote-black"></span><span class="blockquote-white"></span>
+                    </div>
+                </div>
+                <div class="rounded-lg border border-divider bg-background-paper p-5">
+                    <p class="eyebrow">Code</p>
+                    <pre class="overflow-x-auto rounded-lg bg-background p-4 text-xs text-fg-secondary"><code>&lt;blockquote class="blockquote blockquote-primary"&gt;
+  Cut the scope, not the quality.
+&lt;/blockquote&gt;</code></pre>
+                    <p class="mt-3 text-xs text-fg-secondary">
+                        Variants: <code>primary</code> <code>secondary</code>
+                        <code>tertiary</code> <code>success</code> <code>info</code>
+                        <code>warning</code> <code>danger</code> <code>neutral</code>
+                        <code>muted</code> <code>dark</code> <code>light</code>
+                        <code>black</code> <code>white</code>. The base
+                        <code>blockquote</code> sets the type; the variant adds the
+                        left rule and tint.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div class="paper paper-outlined paper-padded paper-elevation-1">
+                    <h3 class="h4 mb-3">Tabs</h3>
+                    <div class="tab-list tab-list-underline">
+                        <button type="button" class="tab tab-underline" aria-selected="true">Overview</button>
+                        <button type="button" class="tab tab-underline" aria-selected="false">Activity</button>
+                        <button type="button" class="tab tab-underline" aria-selected="false">Settings</button>
+                    </div>
+                    <div class="tab-content text-fg-secondary">Panel content sits here.</div>
+                </div>
+                <div class="rounded-lg border border-divider bg-background-paper p-5">
+                    <p class="eyebrow">Code</p>
+                    <pre class="overflow-x-auto rounded-lg bg-background p-4 text-xs text-fg-secondary"><code>&lt;div class="tab-list tab-list-underline"&gt;
+  &lt;button class="tab tab-underline" aria-selected="true"&gt;Overview&lt;/button&gt;
+  &lt;button class="tab tab-underline" aria-selected="false"&gt;Activity&lt;/button&gt;
+&lt;/div&gt;
+&lt;div class="tab-content"&gt;...&lt;/div&gt;</code></pre>
+                    <p class="mt-3 text-xs text-fg-secondary">
+                        The selected style is driven by
+                        <code>aria-selected="true"</code>, so the accessible attribute
+                        and the visual state cannot drift apart. Panel switching is
+                        yours — these are styles, not behaviour.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div class="paper paper-outlined paper-padded paper-elevation-1">
+                    <h3 class="h4 mb-3">Tooltip and dropdown item</h3>
+                    <p class="text-fg-secondary text-sm">
+                        A tooltip is hidden until a script positions it, so it is shown
+                        here forced visible:
+                    </p>
+                    <span class="tooltip !static !visible !block !opacity-100 mt-2">Copied to clipboard<span class="tooltip-arrow"></span></span>
+                    <div class="mt-4 dropdown-menu !static !block">
+                        <a href="#" class="dropdown-item">Rename</a>
+                        <a href="#" class="dropdown-item">Duplicate</a>
+                    </div>
+                </div>
+                <div class="rounded-lg border border-divider bg-background-paper p-5">
+                    <p class="eyebrow">Code</p>
+                    <pre class="overflow-x-auto rounded-lg bg-background p-4 text-xs text-fg-secondary"><code>&lt;span class="tooltip"&gt;Copied&lt;span class="tooltip-arrow"&gt;&lt;/span&gt;&lt;/span&gt;
+
+&lt;div class="dropdown-menu"&gt;
+  &lt;a class="dropdown-item" href="#"&gt;Rename&lt;/a&gt;
+&lt;/div&gt;</code></pre>
+                    <p class="mt-3 text-xs text-fg-secondary">
+                        Both are styles only. <code>tooltip</code> ships hidden and
+                        transparent — position and reveal it yourself, or it will look
+                        broken rather than absent.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div class="paper paper-outlined paper-padded paper-elevation-1">
+                    <h3 class="h4 mb-3">Modal</h3>
+                    <p class="text-fg-secondary text-sm">
+                        Shown inline rather than as an overlay, since a real one covers
+                        the page:
+                    </p>
+                    <div class="modal !static !h-auto !w-auto !opacity-100 mt-3">
+                        <div class="modal-content !mt-0 modal-sm p-4">
+                            <p class="font-semibold">Delete this project?</p>
+                            <p class="text-sm text-fg-secondary mt-1">This cannot be undone.</p>
+                            <div class="mt-4 flex gap-2">
+                                <button type="button" class="btn btn-contained btn-error btn-sm">Delete</button>
+                                <button type="button" class="btn btn-text btn-primary btn-sm">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hidden">
+                        <span class="modal-bg"></span><span class="modal-lg"></span><span class="modal-xl"></span>
+                    </div>
+                </div>
+                <div class="rounded-lg border border-divider bg-background-paper p-5">
+                    <p class="eyebrow">Code</p>
+                    <pre class="overflow-x-auto rounded-lg bg-background p-4 text-xs text-fg-secondary"><code>&lt;div class="modal"&gt;
+  &lt;div class="modal-bg"&gt;&lt;/div&gt;
+  &lt;div class="modal-content modal-sm"&gt;...&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                    <p class="mt-3 text-xs text-fg-secondary">
+                        Widths: <code>modal-sm</code> <code>modal-lg</code>
+                        <code>modal-xl</code>. Styles only — opening, closing, focus
+                        trapping and Escape handling are yours.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div class="paper paper-outlined paper-padded paper-elevation-1">
+                    <h3 class="h4 mb-3">Progress, input sizes, elevation</h3>
+                    <div class="progress mb-2"><div class="progress-bar progress-info" style="width: 45%"></div></div>
+                    <div class="progress mb-2"><div class="progress-bar progress-error" style="width: 20%"></div></div>
+                    <div class="progress progress-xl mb-4"><div class="progress-bar progress-secondary" style="width: 70%"></div></div>
+                    <input type="text" class="input-outlined input-outlined-sm mb-2" placeholder="Small">
+                    <input type="text" class="input-outlined input-outlined-lg" placeholder="Large">
+                    <div class="mt-4 flex gap-3">
+                        <div class="paper paper-padded paper-elevation-8 text-xs">elevation 8</div>
+                        <div class="paper paper-padded paper-elevation-24 text-xs">elevation 24</div>
+                    </div>
+                </div>
+                <div class="rounded-lg border border-divider bg-background-paper p-5">
+                    <p class="eyebrow">Code</p>
+                    <pre class="overflow-x-auto rounded-lg bg-background p-4 text-xs text-fg-secondary"><code>&lt;div class="progress progress-xl"&gt;
+  &lt;div class="progress-bar progress-info" style="width: 45%"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;input class="input-outlined input-outlined-sm"&gt;
+&lt;div class="paper paper-elevation-8"&gt;...&lt;/div&gt;</code></pre>
+                    <p class="mt-3 text-xs text-fg-secondary">
+                        Bar colours: <code>progress-primary</code>
+                        <code>progress-secondary</code> <code>progress-success</code>
+                        <code>progress-info</code> <code>progress-warning</code>
+                        <code>progress-error</code>. Elevations 1, 8, 16, 24.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+                <div class="paper paper-outlined paper-padded paper-elevation-1">
+                    <h3 class="h4 mb-3">Timeline and step link</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-marker timeline-marker-error"></div>
+                            <div class="timeline-content">
+                                <p class="font-semibold">Payment failed</p>
+                                <p class="text-sm text-fg-secondary">Card declined.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="step-link mt-4 inline-block p-2">A focusable step</a>
+                </div>
+                <div class="rounded-lg border border-divider bg-background-paper p-5">
+                    <p class="eyebrow">Code</p>
+                    <pre class="overflow-x-auto rounded-lg bg-background p-4 text-xs text-fg-secondary"><code>&lt;div class="timeline-marker timeline-marker-error"&gt;&lt;/div&gt;
+&lt;a class="step-link" href="#"&gt;Step&lt;/a&gt;</code></pre>
+                    <p class="mt-3 text-xs text-fg-secondary">
+                        <code>step-link</code> only adds the focus ring and removes the
+                        underline — wrap it around a step you want keyboard-reachable.
+                    </p>
+                </div>
+            </div>
+
+            <div class="paper paper-outlined paper-padded paper-elevation-1">
+                <h3 class="h4 mb-2">Integration hooks, not components</h3>
+                <p class="text-sm text-fg-secondary">
+                    These four are declared but have nothing to show: they are hooks for
+                    other things. <code>accordion-collapse</code> is the collapsed state
+                    an accordion script toggles, <code>fa-ul</code> indents a
+                    FontAwesome list, <code>taos-init</code> is the animate-on-scroll
+                    library's initial state, and <code>account-shell</code> plus the
+                    <code>navbar-*</code> helpers are layout scaffolding. They are named
+                    here so Tailwind compiles them — without a reference somewhere, they
+                    do not exist at runtime.
+                </p>
+                <div class="hidden">
+                    <span class="accordion-collapse"></span><span class="fa-ul"></span>
+                    <span class="taos-init"></span><span class="account-shell"></span>
+                    <span class="navbar-brand"></span><span class="navbar-btn"></span>
+                    <span class="navbar-col"></span><span class="navbar-dark"></span>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+{% endblock %}

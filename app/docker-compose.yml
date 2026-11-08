@@ -1,0 +1,23 @@
+name: scope-control-s1
+services:
+  postgres:
+    image: postgres:17.7-alpine
+    ports:
+      - "127.0.0.1:55433:5432"
+    environment:
+      POSTGRES_DB: scope_control
+      POSTGRES_USER: scope_control
+      POSTGRES_PASSWORD: scope_control_local_only
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U scope_control -d scope_control"]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+  redis:
+    image: redis:7.4.7-alpine
+    ports:
+      - "127.0.0.1:56380:6379"
+volumes:
+  postgres_data:

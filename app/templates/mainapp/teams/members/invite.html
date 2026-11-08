@@ -1,0 +1,55 @@
+{% extends "mainapp/layouts/sidebar_layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}Приглашение - {{ team.name }}{% endblock %}
+
+{% block main_content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto">
+        <!-- Header -->
+        <div class="mb-6">
+            <h1 class="text-2xl font-bold text-fg">Пригласить участника</h1>
+            <p class="mt-2 text-sm text-fg-secondary">
+                Приглашение в компанию {{ team.name }}
+            </p>
+        </div>
+
+        <!-- Info Box -->
+        <div class="alert alert-info mb-6">
+            <div class="flex items-start gap-3">
+                <svg class="h-5 w-5 text-info flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <div>
+                    <p class="text-sm text-fg-secondary">
+                        Приглашение будет сохранено, а письмо поставлено в очередь отправки.
+                        Срок действия — 7 дней. Статус отправки доступен в списке участников.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Invitation Form -->
+        <div class="card">
+            <div class="card-body !p-6">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+
+                    {% crispy form %}
+
+                    <!-- Action Buttons -->
+                    <div class="mt-6 flex items-center gap-x-3 pt-6 border-t border-divider">
+                        <button type="submit" class="btn btn-contained btn-primary">
+                            Сохранить приглашение
+                        </button>
+                        <a href="{% url 'team_members' team_id=team.id %}"
+                           class="text-sm font-semibold text-fg-secondary hover:text-fg">
+                            Отмена
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

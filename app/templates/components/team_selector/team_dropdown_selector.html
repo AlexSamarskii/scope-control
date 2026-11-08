@@ -1,0 +1,128 @@
+{% load scope_ui %}
+<div x-data="{ teamMenuOpen: false }" class="relative">
+    <!-- Toggle Button -->
+    <button
+        @click="teamMenuOpen = !teamMenuOpen"
+        @click.away="teamMenuOpen = false"
+        type="button"
+        class="sidebar-select"
+        aria-haspopup="true"
+        :aria-expanded="teamMenuOpen"
+    >
+        <div class="flex items-center gap-2 min-w-0">
+            {% if team %}
+                <!-- Team Logo or Placeholder -->
+                {% if team.logo %}
+                    <img src="{% url 'team_logo' team_id=team.pk %}"
+                         alt="{{ team.name }}"
+                         class="h-8 w-8 rounded-full object-cover flex-shrink-0">
+                {% else %}
+                    <div class="avatar-sm">
+                        {{ team.name|slice:":2"|upper }}
+                    </div>
+                {% endif %}
+                <!-- Team Name -->
+                <span class="truncate text-sm font-medium text-fg">{{ team.name }}</span>
+            {% else %}
+                <!-- No Active Team -->
+                <div class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-background text-fg-secondary">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                </div>
+                <span class="text-sm font-medium text-fg">Выберите компанию</span>
+            {% endif %}
+        </div>
+        <!-- Chevron Icon -->
+        <svg
+            class="h-4 w-4 flex-shrink-0 text-fg-secondary transition-transform"
+            :class="teamMenuOpen ? 'rotate-180' : ''"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+        >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+    </button>
+
+    <!-- Dropdown Menu -->
+    <div
+        :class="teamMenuOpen ? '' : 'hidden'"
+        class="sidebar-dropdown {% if dropdown_direction == 'up' %}bottom-full mb-2{% else %}mt-2{% endif %}"
+        role="menu"
+        aria-orientation="vertical"
+    >
+        {% if user.team_membership.all %}
+            <!-- Team List -->
+            <div class="py-1">
+                {% for membership in user.team_membership.all %}
+                    <a
+                        href="{% url "team_dashboard" team_id=membership.team.pk %}"
+                        class="sidebar-dropdown-item {% if team and membership.team.id == team.id %}sidebar-dropdown-item-active{% endif %}"
+                        role="menuitem"
+                    >
+                        <div class="flex items-center gap-3 min-w-0 flex-1">
+                            <!-- Team Logo or Placeholder -->
+                            {% if membership.team.logo %}
+                                <img src="{% url 'team_logo' team_id=membership.team.pk %}"
+                                     alt="{{ membership.team.name }}"
+                                     class="h-8 w-8 rounded-full object-cover flex-shrink-0">
+                            {% else %}
+                                <div class="avatar-xs">
+                                    {{ membership.team.name|slice:":2"|upper }}
+                                </div>
+                            {% endif %}
+
+                            <div class="min-w-0 flex-1">
+                                <!-- Team Name -->
+                                <div class="truncate font-medium {% if team and membership.team.id == team.id %}text-primary{% else %}text-fg{% endif %}">
+                                    {{ membership.team.name }}
+                                </div>
+                                <!-- Role Badge -->
+                                <div class="text-xs capitalize text-fg-secondary">
+                                    {{ membership.role|role_label }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Active Team Checkmark -->
+                        {% if team and membership.team.id == team.id %}
+                            <svg class="h-5 w-5 flex-shrink-0 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                            </svg>
+                        {% endif %}
+                    </a>
+                {% endfor %}
+            </div>
+
+            <!-- Divider -->
+            <div class="border-t border-divider"></div>
+        {% else %}
+            <!-- Empty State -->
+            <div class="px-4 py-6 text-center">
+                <svg class="mx-auto h-12 w-12 text-fg-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <p class="mt-2 text-sm font-medium text-fg">Компаний пока нет</p>
+                <p class="mt-1 text-xs text-fg-secondary">Создайте компанию, чтобы начать работу</p>
+            </div>
+
+            <!-- Divider -->
+            <div class="border-t border-divider"></div>
+        {% endif %}
+
+        <!-- Создать компанию Link -->
+        <div class="py-1">
+            <a
+                href="{% url "team_create" %}"
+                class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/5"
+                role="menuitem"
+            >
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+                Создать компанию
+            </a>
+        </div>
+    </div>
+</div>

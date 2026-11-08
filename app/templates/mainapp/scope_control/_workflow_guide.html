@@ -1,0 +1,36 @@
+{% include 'mainapp/scope_control/_project_notices.html' with project=workflow.project %}
+{% if workflow %}
+<div class="mt-6 mb-6">
+  <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+    <a class="text-primary text-sm focus-visible:ring-2 focus-visible:ring-primary rounded" href="{{ workflow.workspace_url }}">Обзор проекта</a>
+    <span class="badge badge-info">{{ workflow.mode_label }}</span>
+  </div>
+  <nav aria-label="Этапы работы с выбранным запросом">
+    <ol class="workflow-steps grid grid-cols-2 lg:grid-cols-4 gap-3">
+      {% for step in workflow.steps %}
+      <li class="rounded-xl border p-3 {% if step.current %}border-primary bg-primary/5{% else %}border-divider bg-background-paper{% endif %}"{% if step.current %} aria-current="step"{% endif %}>
+        <div class="flex gap-2 items-start">
+          <span aria-hidden="true" class="workflow-marker{% if step.done %} workflow-marker-complete{% endif %}">{% if step.done %}✓{% else %}{{ step.number }}{% endif %}</span>
+          <div class="min-w-0">{% if step.url and not step.current %}<a href="{{ step.url }}" class="text-sm font-semibold text-primary break-words focus-visible:ring-2 focus-visible:ring-primary rounded">{{ step.label }}</a>{% else %}<span class="text-sm font-semibold break-words">{{ step.label }}</span>{% endif %}<p class="text-xs mt-1 {% if step.current %}text-primary font-semibold{% else %}text-fg-secondary{% endif %}">{{ step.status }}</p></div>
+        </div>
+      </li>
+      {% endfor %}
+    </ol>
+  </nav>
+  {% if workflow.form_step %}
+    <p class="text-fg-secondary mt-4">Шаг {{ workflow.form_step }} из 4. {{ workflow.form_intro }}</p>
+  {% else %}
+  <section class="card mt-6 border-l-4 border-primary" aria-labelledby="workflow-title">
+    <div class="card-body !p-5 lg:!p-8">
+      {% if workflow.request %}<p class="text-primary text-sm font-semibold break-words mb-3">Выбранный запрос · {{ workflow.request.body|truncatechars:110 }} · исходная версия {{ workflow.request.scope_version.number }}</p>{% else %}<p class="eyebrow mb-3">Следующее действие по проекту</p>{% endif %}
+      <h2 id="workflow-title" class="text-xl lg:text-2xl font-semibold tracking-tight">{{ workflow.title }}{% if workflow.resulting_version %} · версия {{ workflow.resulting_version }}{% endif %}</h2>
+      <p class="text-fg-secondary mt-4 max-w-3xl">{{ workflow.description }}</p>
+      {% if workflow.stale %}<p class="rounded-lg border border-warning bg-warning/10 p-4 mt-4 text-sm">Исходная версия {{ workflow.request.scope_version.number }}, текущая — {{ workflow.latest_version.number }}. Старые записи не перепривязываются. Применение этого решения к новому объёму остановится.</p>{% endif %}
+      {% if workflow.can_write or not workflow.action.requires_write %}<a class="btn btn-contained btn-primary mt-4 max-w-full break-words focus-visible:ring-2 focus-visible:ring-primary" href="{{ workflow.action.url }}">{{ workflow.action.label }} <span aria-hidden="true">→</span></a>{% endif %}
+      {% if not workflow.can_write %}<p class="text-fg-secondary text-sm mt-4">Изменения сохраняет владелец или менеджер компании. Вам доступны объём, запросы и история решений.</p>{% endif %}
+      <p class="text-fg-secondary text-xs mt-4">Решение, стоимость и срок указывает менеджер. Черновик передаётся вручную; запись ответа не подтверждает подпись или оплату.</p>
+    </div>
+  </section>
+  {% endif %}
+</div>
+{% endif %}

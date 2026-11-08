@@ -1,0 +1,169 @@
+import os
+import logging, logging.config
+import structlog
+from celery import Celery
+from celery.schedules import crontab
+from kombu import Queue
+from .settings import BASE_DIR
+import environ
+from celery.signals import setup_logging
+from django_structlog.celery.steps import DjangoStructLogInitStep
+
+env = environ.Env()
+# Process environment only; no dotenv loader.
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project.settings")
+
+app = Celery("project")
+app.steps["worker"].add(DjangoStructLogInitStep)
+app.autodiscover_tasks()
+app.conf.broker_url = env("REDIS_URL", default=None)
+app.conf.accept_content = ["application/json"]
+app.conf.task_serializer = "json"
+app.conf.result_serializer = "json"
+app.conf.result_backend = env("REDIS_URL", default=None)
+app.conf.task_always_eager = env.bool("CELERY_TASK_ALWAYS_EAGER", default=False)
+app.conf.task_eager_propagates = True
+app.conf.task_default_queue = "default"
+# https://docs.celeryq.dev/en/stable/userguide/configuration.html#task-soft-time-limit
+# Task soft time limit in seconds.
+# app.conf.task_soft_time_limit = 10
+# https://docs.celeryq.dev/en/stable/userguide/configuration.html#task-time-limit
+# Task hard time limit in seconds.
+# The worker processing the task will be killed and replaced with a new one when this is exceeded.
+# app.conf.task_time_limit = 600
+app.conf.task_create_missing_queues = True
+app.conf.task_queues = (Queue("default"),)
+app.conf.broker_pool_limit = 1
+app.conf.broker_connection_timeout = 30
+# worker_prefetch_multiplier: appropriate for long running tasks, default is 4
+app.conf.worker_prefetch_multiplier = 1
+app.conf.redbeat_redis_url = env("REDIS_URL", default=None)
+# https://docs.celeryq.dev/en/stable/userguide/periodic-tasks.html#beat-entries
+"""
+Example of entries:
+
+Run on 00:01, first day of month
+
+    "example-celery-task": {
+        "task": "example_celery_task",
+        'schedule': crontab(
+            minute=1,
+            hour=0,
+            day_of_month=1
+         ),
+         'schedule': 60 * 10 # run every 10 minutes
+        "options": {
+            "ignore_result": True,
+            "queue": "default",
+        },
+    }
+Run every 10 minutes
+    "example-celery-task": {
+        "task": "example_celery_task",
+        'schedule': 60 * 10 # run every 10 minutes
+        "options": {
+            "ignore_result": True,
+            "queue": "default",
+        },
+    }
+"""
+app.conf.beat_schedule = {
+    "expire-team-memberships": {
+        "task": "expire_team_memberships",
+        "schedule": crontab(hour=2, minute=0),  # Run daily at 2:00 AM
+        "options": {
+            "ignore_result": True,
+            "queue": "default",
+        },
+    },
+    "purge-unconfirmed-accounts": {
+        "task": "purge_unconfirmed_accounts",
+        # Daily. A no-op unless SPEEDPY_UNCONFIRMED_ACCOUNT_PURGE_DAYS is set,
+        # so shipping it enabled deletes nobody by surprise.
+        "schedule": crontab(hour=4, minute=30),
+        "options": {
+            "ignore_result": True,
+            "queue": "default",
+        },
+    },
+    "purge-scheduled-team-deletions": {
+        "task": "purge_scheduled_team_deletions",
+        # Hourly: the undo window is configured in whole hours, so a finer
+        # cadence would only add noise, and a coarser one would make a
+        # 1-hour window mean "up to two hours".
+        "schedule": crontab(minute=15),
+        "options": {
+            "ignore_result": True,
+            "queue": "default",
+        },
+    },
+    "expire-team-invitations": {
+        "task": "expire_team_memberships_invitations",
+        "schedule": crontab(hour=2, minute=30),  # Run daily at 2:30 AM
+        "options": {
+            "ignore_result": True,
+            "queue": "default",
+        },
+    },
+    "process-billing-subscriptions": {
+        "task": "process_billing_subscriptions",
+        "schedule": crontab(hour=3, minute=0),  # Run daily at 3:00 AM
+        "options": {
+            "ignore_result": True,
+            "queue": "default",
+        },
+    },
+    "reconcile-webhook-endpoints": {
+        "task": "webhooks.reconcile_endpoints",
+        "schedule": crontab(hour=4, minute=15),  # nightly, before the purge
+        "options": {
+            "ignore_result": True,
+            "queue": "default",
+        },
+    },
+    "purge-webhook-deliveries": {
+        "task": "webhooks.purge_deliveries",
+        "schedule": crontab(hour=4, minute=45),  # daily, redact/delete old logs
+        "options": {
+            "ignore_result": True,
+            "queue": "default",
+        },
+    },
+}
+
+@setup_logging.connect
+def receiver_setup_logging(
+    loglevel, logfile, format, colorize, **kwargs
+):  # pragma: no cover
+    # Keep web/worker redaction and SQL privacy consistent.
+    from django.conf import settings
+    logging.config.dictConfig(settings.LOGGING)
+
+    structlog.configure(
+        processors=[
+            structlog.contextvars.merge_contextvars,
+            structlog.stdlib.filter_by_level,
+            structlog.processors.TimeStamper(fmt="iso"),
+            structlog.stdlib.add_logger_name,
+            structlog.stdlib.add_log_level,
+            structlog.stdlib.PositionalArgumentsFormatter(),
+            structlog.processors.StackInfoRenderer(),
+            structlog.processors.format_exc_info,
+            structlog.processors.UnicodeDecoder(),
+            structlog.stdlib.ProcessorFormatter.wrap_for_formatter,
+        ],
+        logger_factory=structlog.stdlib.LoggerFactory(),
+        cache_logger_on_first_use=True,
+    )
+
+# Only the approved analysis reconciler is periodic; upstream jobs stay off.
+from django.conf import settings
+
+app.conf.beat_schedule = {}
+if settings.SCOPE_ANALYSIS_BACKEND in {"fixture", "yandex"}:
+    app.conf.beat_schedule["scope-analysis-reconcile"] = {
+        "task": "scope_analysis.reconcile",
+        "schedule": 30.0,
+        "options": {"ignore_result": True, "queue": "default"},
+    }
